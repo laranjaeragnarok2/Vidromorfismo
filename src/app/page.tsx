@@ -9,12 +9,12 @@ import { Github, Instagram, Settings2, Layers, Shapes, Baseline, Droplet, Contra
 import { SplineViewer } from '@/components/spline-viewer';
 
 export default function HomePage() {
-  const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(56);
-  const [cardBlurSlider, setCardBlurSlider] = useState(50);
-  const [cardBorderRadiusSlider, setCardBorderRadiusSlider] = useState(37.5);
-  const [innerBottomShadowBlurSlider, setInnerBottomShadowBlurSlider] = useState(30);
-  const [shadowBlurSlider, setShadowBlurSlider] = useState(38);
-  const [shadowOpacitySlider, setShadowOpacitySlider] = useState(40);
+  const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(24); // Atualizado de 56
+  const [cardBlurSlider, setCardBlurSlider] = useState(27); // Atualizado de 50
+  const [cardBorderRadiusSlider, setCardBorderRadiusSlider] = useState(100); // Atualizado de 37.5
+  const [innerBottomShadowBlurSlider, setInnerBottomShadowBlurSlider] = useState(0); // Atualizado de 30
+  const [shadowBlurSlider, setShadowBlurSlider] = useState(100); // Atualizado de 38
+  const [shadowOpacitySlider, setShadowOpacitySlider] = useState(100); // Atualizado de 40
 
   // Derived values for actual use
   const actualFeatureCardOpacity = 0.1 + (featureCardOpacitySlider / 100) * 0.9;
