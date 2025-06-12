@@ -156,9 +156,11 @@ export default function HomePage() {
 
   return (
     <div
-      className="min-h-screen text-foreground bg-cover bg-center transition-opacity duration-500"
+      className="min-h-screen text-foreground bg-center transition-opacity duration-500"
       style={{
         backgroundImage: "url('https://w.wallhaven.cc/full/0w/wallhaven-0wjvrn.jpg')",
+        backgroundSize: 'auto 100%',
+        backgroundRepeat: 'no-repeat',
       }}
       data-ai-hint="abstract colorful"
     >
