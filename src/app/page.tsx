@@ -158,7 +158,7 @@ export default function HomePage() {
     <div
       className="min-h-screen text-foreground bg-center transition-opacity duration-500"
       style={{
-        backgroundImage: "url('https://w.wallhaven.cc/full/0w/wallhaven-0wjvrn.jpg')",
+        backgroundImage: "url('https://w.wallhaven.cc/full/5g/wallhaven-5g3dk3.jpg')",
         backgroundSize: 'auto 100%',
         backgroundRepeat: 'no-repeat',
       }}
