@@ -58,7 +58,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
         return { display: (actualOpacity * 100).toFixed(0), unit: '%' };
     }
     if (id === 'cardBlurControl') return { display: (val / 100 * 24).toFixed(1), unit: 'px' };
-    if (id === 'innerBottomShadowBlurControl') return { display: (val / 100 * 10).toFixed(1), unit: 'px' }; // Changed for inner shadow blur
+    if (id === 'innerBottomShadowBlurControl') return { display: (val / 100 * 10).toFixed(1), unit: 'px' }; 
     if (id === 'shadowBlurControl') return { display: (val / 100 * 40).toFixed(1), unit: 'px' };
     if (id === 'shadowOpacityControl') {
         return { display: (val / 100 * 50).toFixed(0), unit: '%' };
@@ -72,7 +72,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     backgroundColor: `hsla(0, 0%, 15%, ${backgroundOpacity ?? 0.6})`,
     borderWidth: '1px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.15)', 
+    borderColor: 'hsla(0, 0%, 100%, 0.1)', 
   };
    if (borderRadiusValue !== undefined) {
     cardStyle.borderRadius = `${borderRadiusValue.toFixed(2)}rem`;
@@ -143,5 +143,4 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     </Card>
   );
 };
-
     
