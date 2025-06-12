@@ -18,7 +18,7 @@ interface FeatureCardProps {
   currentBlur?: number; // actual px value
   backgroundOpacity?: number; // actual opacity value 0-1
   borderRadiusValue?: number; // actual rem value
-  boxShadowStyle?: string; // Nova prop para a string completa do boxShadow
+  boxShadowStyle?: string;
 }
 
 export const FeatureCard: FC<FeatureCardProps> = ({
@@ -69,10 +69,10 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   const { display: currentFormattedValue, unit: currentUnit } = getDisplayValueAndUnit();
 
   const cardStyle: React.CSSProperties = {
-    backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.6})`,
-    borderWidth: '2px',
+    backgroundColor: `hsla(0, 0%, 15%, ${backgroundOpacity ?? 0.6})`, // Dark translucent background
+    borderWidth: '1px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.45)', // Ajustado para borda mais definida
+    borderColor: 'hsla(0, 0%, 100%, 0.1)', // Subtle light border
   };
    if (borderRadiusValue !== undefined) {
     cardStyle.borderRadius = `${borderRadiusValue.toFixed(2)}rem`;
@@ -81,7 +81,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     cardStyle.backdropFilter = `blur(${currentBlur.toFixed(1)}px)`;
     cardStyle.WebkitBackdropFilter = `blur(${currentBlur.toFixed(1)}px)`;
   }
-  if (boxShadowStyle !== undefined) { // Usa a prop boxShadowStyle
+  if (boxShadowStyle !== undefined) {
     cardStyle.boxShadow = boxShadowStyle;
   }
   
@@ -94,13 +94,13 @@ export const FeatureCard: FC<FeatureCardProps> = ({
         <div className="mb-2 p-3 bg-primary/20 rounded-full w-fit border border-primary/30">
           {React.cloneElement(icon as React.ReactElement, { className: "w-6 h-6 text-primary"})}
         </div>
-        <CardTitle className="text-lg font-headline text-foreground drop-shadow-sm">{title}</CardTitle>
-        <CardDescription className="mt-1 text-muted-foreground drop-shadow-sm">{description}</CardDescription>
+        <CardTitle className="text-lg font-headline text-slate-100 drop-shadow-sm">{title}</CardTitle>
+        <CardDescription className="mt-1 text-slate-300 drop-shadow-sm">{description}</CardDescription>
       </CardHeader>
       <CardContent className="flex-grow flex flex-col justify-end p-4 bg-transparent">
         <div className="space-y-3 pt-4">
           <div className="flex justify-between items-center mb-2">
-            <Label htmlFor={`slider-${id}`} className="text-sm text-foreground drop-shadow-sm">
+            <Label htmlFor={`slider-${id}`} className="text-sm text-slate-200 drop-shadow-sm">
               {sliderLabel}
             </Label>
             <span className="text-sm font-semibold text-primary w-16 text-right tabular-nums drop-shadow-sm">
@@ -116,17 +116,17 @@ export const FeatureCard: FC<FeatureCardProps> = ({
               max={100}
               step={1}
               onValueChange={handleSliderChange}
-              className="[&>span:nth-child(1)]:bg-secondary/50 [&>span:nth-child(1)>span]:bg-primary [&_[role=slider]]:bg-background [&_[role=slider]]:border-2 [&_[role=slider]]:border-primary [&_[role=slider]]:shadow-sm"
+              className="[&>span:nth-child(1)]:bg-slate-700/50 [&>span:nth-child(1)>span]:bg-primary [&_[role=slider]]:bg-slate-800 [&_[role=slider]]:border-2 [&_[role=slider]]:border-primary [&_[role=slider]]:shadow-sm"
               aria-label={sliderLabel}
             />
           ) : (
              <div className="h-5 flex items-center"> 
                 <div className="relative flex h-2 w-full grow touch-none select-none items-center">
-                    <span className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary/50">
+                    <span className="relative h-2 w-full grow overflow-hidden rounded-full bg-slate-700/50">
                         <span className="absolute h-full bg-primary" style={{width: `${defaultValue}%`}}></span>
                     </span>
                     <span
-                      className="absolute block h-5 w-5 rounded-full border-2 border-primary bg-background shadow-sm"
+                      className="absolute block h-5 w-5 rounded-full border-2 border-primary bg-slate-800 shadow-sm"
                       style={{left: `calc(${defaultValue}% - 10px)`}} 
                       role="slider"
                       aria-valuenow={defaultValue}
@@ -138,10 +138,8 @@ export const FeatureCard: FC<FeatureCardProps> = ({
         </div>
       </CardContent>
       <CardFooter className="p-3 bg-transparent border-t border-white/10 justify-center">
-        <p className="text-xs text-muted-foreground drop-shadow-sm">Ajuste para personalizar</p>
+        <p className="text-xs text-slate-400 drop-shadow-sm">Ajuste para personalizar</p>
       </CardFooter>
     </Card>
   );
 };
-
-    

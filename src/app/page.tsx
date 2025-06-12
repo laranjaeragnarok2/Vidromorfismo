@@ -116,13 +116,13 @@ export default function HomePage() {
     },
   ];
 
-  const dynamicBoxShadow = `inset 0 3px 5px hsla(0, 0%, 100%, 0.65), inset 0 1px 1px hsla(0, 0%, 100%, 0.8), inset 0 -2px 2px hsla(210, 30%, 10%, 0.2), 0px ${actualShadowOffsetY.toFixed(1)}px ${actualShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})`;
+  const dynamicBoxShadow = `inset 0px 1px 2px hsla(0, 0%, 100%, 0.2), 0px ${actualShadowOffsetY.toFixed(1)}px ${actualShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})`;
 
   const sharedCardStyleBase: Omit<React.CSSProperties, 'backdropFilter' | 'WebkitBackdropFilter' | 'boxShadow' | 'borderRadius'> = {
-    backgroundColor: `hsla(0, 0%, 100%, ${actualFeatureCardOpacity})`,
-    borderWidth: '2px',
+    backgroundColor: `hsla(0, 0%, 15%, ${actualFeatureCardOpacity})`, // Dark translucent background
+    borderWidth: '1px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.35)',
+    borderColor: 'hsla(0, 0%, 100%, 0.1)', // Subtle light border
   };
 
   const sharedCardStyle: React.CSSProperties = {
@@ -148,7 +148,7 @@ export default function HomePage() {
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-headline font-bold text-primary drop-shadow-lg">
             Liquid Glass React
           </h1>
-          <p className="text-muted-foreground mt-3 text-lg md:text-xl max-w-2xl mx-auto bg-background/50 backdrop-blur-sm p-2 rounded-md drop-shadow-sm">
+          <p className="text-slate-300 mt-3 text-lg md:text-xl max-w-2xl mx-auto bg-black/30 backdrop-blur-sm p-2 rounded-md drop-shadow-sm">
             Explore os recursos e a personalização da interface do usuário de forma clara e acessível.
           </p>
         </header>
@@ -160,14 +160,14 @@ export default function HomePage() {
             className={`py-10 md:py-12 scroll-mt-20`}
             style={sharedCardStyle}
           >
-            <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-foreground drop-shadow-md">
+            <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-slate-100 drop-shadow-md">
               Navegação Rápida
             </h2>
             <NavigationLinks links={navLinks} />
           </section>
 
           <section id="features" aria-labelledby="features-heading" className="scroll-mt-20">
-            <h2 id="features-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-foreground drop-shadow-md">
+            <h2 id="features-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-slate-100 drop-shadow-md">
               Funcionalidades Interativas
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 md:gap-8">
@@ -191,7 +191,7 @@ export default function HomePage() {
           </section>
           
           <section id="project-details" aria-labelledby="project-details-heading" className="scroll-mt-20">
-            <h2 id="project-details-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-foreground drop-shadow-md">
+            <h2 id="project-details-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-slate-100 drop-shadow-md">
               Detalhes do Projeto
             </h2>
             <ProjectDetailsCard
@@ -204,11 +204,11 @@ export default function HomePage() {
           </section>
         </main>
 
-        <footer className="mt-16 md:mt-24 pt-8 md:pt-12 border-t border-white/20 text-center">
-          <p className="text-sm text-muted-foreground bg-background/50 backdrop-blur-sm p-1 rounded-md inline-block drop-shadow-sm">
+        <footer className="mt-16 md:mt-24 pt-8 md:pt-12 border-t border-white/10 text-center">
+          <p className="text-sm text-slate-300 bg-black/30 backdrop-blur-sm p-1 rounded-md inline-block drop-shadow-sm">
             &copy; {new Date().getFullYear()} Liquid Glass React. Todos os direitos reservados.
           </p>
-          <p className="text-xs text-muted-foreground/80 mt-2 bg-background/50 backdrop-blur-sm p-1 rounded-md inline-block drop-shadow-sm">
+          <p className="text-xs text-slate-400/80 mt-2 bg-black/30 backdrop-blur-sm p-1 rounded-md inline-block drop-shadow-sm">
             Construído com Next.js, Tailwind CSS, e ShadCN UI.
           </p>
         </footer>
