@@ -1,4 +1,5 @@
 
+import LiquidGlass from 'liquid-glass-react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
@@ -50,34 +51,38 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div 
+      className="min-h-screen text-foreground bg-cover bg-center" 
+      style={{ backgroundImage: "url('https://placehold.co/1920x1080.png')" }}
+      data-ai-hint="abstract nature"
+    >
       <div className="container mx-auto px-4 py-8 md:py-12">
         <header className="mb-12 md:mb-16 text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-headline font-bold text-primary">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-headline font-bold text-primary drop-shadow-lg">
             Demonstração Simplificada
           </h1>
-          <p className="text-muted-foreground mt-3 text-lg md:text-xl max-w-2xl mx-auto">
+          <p className="text-muted-foreground mt-3 text-lg md:text-xl max-w-2xl mx-auto bg-background/50 backdrop-blur-sm p-2 rounded-md">
             Explore os recursos e a personalização da interface do usuário de forma clara e acessível.
           </p>
         </header>
 
         <main className="space-y-12 md:space-y-16">
           <section id="project-details" aria-labelledby="project-details-heading" className="scroll-mt-20">
-            <h2 id="project-details-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-foreground">
+            <h2 id="project-details-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-foreground drop-shadow-md">
               Detalhes do Projeto
             </h2>
             <ProjectDetailsCard {...projectDetails} />
           </section>
 
-          <section id="navigation" aria-labelledby="navigation-heading" className="py-10 md:py-12 bg-card shadow-lg rounded-xl scroll-mt-20">
-            <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-foreground">
+          <section id="navigation" aria-labelledby="navigation-heading" className="py-10 md:py-12 bg-card/70 backdrop-blur-md shadow-lg rounded-xl scroll-mt-20 border border-white/20">
+            <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-foreground drop-shadow-md">
               Navegação Rápida
             </h2>
             <NavigationLinks links={navLinks} />
           </section>
 
           <section id="features" aria-labelledby="features-heading" className="scroll-mt-20">
-            <h2 id="features-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-foreground">
+            <h2 id="features-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-foreground drop-shadow-md">
               Funcionalidades Interativas
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -95,11 +100,11 @@ export default function HomePage() {
           </section>
         </main>
 
-        <footer className="mt-16 md:mt-24 pt-8 md:pt-12 border-t border-border text-center">
-          <p className="text-sm text-muted-foreground">
+        <footer className="mt-16 md:mt-24 pt-8 md:pt-12 border-t border-white/20 text-center">
+          <p className="text-sm text-muted-foreground bg-background/50 backdrop-blur-sm p-1 rounded-md inline-block">
             &copy; {new Date().getFullYear()} Demonstração Simplificada. Todos os direitos reservados.
           </p>
-          <p className="text-xs text-muted-foreground/80 mt-1">
+          <p className="text-xs text-muted-foreground/80 mt-2 bg-background/50 backdrop-blur-sm p-1 rounded-md inline-block">
             Construído com Next.js, Tailwind CSS, e ShadCN UI.
           </p>
         </footer>

@@ -1,3 +1,4 @@
+
 import type { FC, ReactNode } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -18,29 +19,29 @@ interface ProjectDetailsCardProps {
 
 export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({ title, description, author, links }) => {
   return (
-    <Card className="w-full max-w-2xl mx-auto shadow-xl overflow-hidden rounded-lg">
-      <CardHeader className="text-center bg-card p-6">
-        <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4 border border-primary/20">
+    <Card className="w-full max-w-2xl mx-auto shadow-xl overflow-hidden rounded-xl bg-card/70 backdrop-blur-md border border-white/20">
+      <CardHeader className="text-center bg-transparent p-6">
+        <div className="mx-auto bg-primary/20 p-4 rounded-full w-fit mb-4 border border-primary/30">
          <Briefcase className="w-10 h-10 text-primary" />
         </div>
-        <CardTitle className="text-3xl font-headline text-primary">{title}</CardTitle>
-        <CardDescription className="text-md text-muted-foreground mt-1">{description}</CardDescription>
+        <CardTitle className="text-3xl font-headline text-primary drop-shadow-sm">{title}</CardTitle>
+        <CardDescription className="text-md text-muted-foreground mt-1 drop-shadow-sm">{description}</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6 p-6">
-        <div className="flex items-center space-x-3 p-3 bg-accent/10 rounded-md border border-accent/20">
+      <CardContent className="space-y-6 p-6 bg-transparent">
+        <div className="flex items-center space-x-3 p-3 bg-accent/20 rounded-md border border-accent/30">
           <User className="w-6 h-6 text-accent-foreground" />
-          <p className="text-foreground"><span className="font-semibold">Autor:</span> {author}</p>
+          <p className="text-foreground drop-shadow-sm"><span className="font-semibold">Autor:</span> {author}</p>
         </div>
         
         {links && links.length > 0 && (
           <div className="space-y-3">
-            <h3 className="text-lg font-semibold mb-2 flex items-center text-foreground">
+            <h3 className="text-lg font-semibold mb-2 flex items-center text-foreground drop-shadow-sm">
               <GitBranch className="w-5 h-5 text-primary mr-2" />
               Links Úteis:
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {links.map((link) => (
-                <Button key={link.name} variant="outline" asChild className="w-full transition-all duration-200 ease-in-out hover:bg-accent hover:text-accent-foreground hover:border-accent">
+                <Button key={link.name} variant="outline" asChild className="w-full transition-all duration-200 ease-in-out hover:bg-accent hover:text-accent-foreground hover:border-accent bg-background/70">
                   <a href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
                     {link.icon}
                     <span>{link.name}</span>
@@ -51,8 +52,8 @@ export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({ title, descrip
           </div>
         )}
       </CardContent>
-      <CardFooter className="justify-center bg-muted/50 p-4">
-        <p className="text-sm text-muted-foreground">Informações do projeto.</p>
+      <CardFooter className="justify-center bg-transparent border-t border-white/10 p-4">
+        <p className="text-sm text-muted-foreground drop-shadow-sm">Informações do projeto.</p>
       </CardFooter>
     </Card>
   );
