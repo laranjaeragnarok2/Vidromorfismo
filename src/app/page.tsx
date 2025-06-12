@@ -127,7 +127,7 @@ export default function HomePage() {
     inset 1px 1px 2px 0px hsla(0, 0%, 100%, 0.85), 
     inset 0px 2px 3px 0px hsla(0, 0%, 100%, 0.25),
     inset 0px 0px 0px 1px hsla(0, 0%, 100%, 0.3),
-    inset -2px -2px ${actualInnerBottomShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, 0.2),
+    inset -4px -4px ${actualInnerBottomShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, 0.3),
     0px ${fixedOuterShadowOffsetY}px ${actualShadowBlur.toFixed(1)}px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})
   `;
 
