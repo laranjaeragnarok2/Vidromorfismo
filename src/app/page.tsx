@@ -6,23 +6,18 @@ import type { ReactNode } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
-import { Github, Link as LinkIcon, Palette, Sun, Settings2, HomeIcon, ListChecks, Info, Droplets, Layers } from 'lucide-react';
+import { Github, Link as LinkIcon, Sun, Settings2, HomeIcon, ListChecks, Info, Droplets, Layers, Frame } from 'lucide-react';
 
 export default function HomePage() {
-  const [primaryLightness, setPrimaryLightness] = useState(63);
-  const [featureCardOpacity, setFeatureCardOpacity] = useState(0.6); // Renamed from pageOpacity, default 60%
-  const [cardBlur, setCardBlur] = useState(12); 
+  const [featureCardOpacity, setFeatureCardOpacity] = useState(0.6);
+  const [cardBlur, setCardBlur] = useState(12);
   const [accentLightness, setAccentLightness] = useState(82);
+  const [featureCardBorderWidth, setFeatureCardBorderWidth] = useState(1); // Default 1px
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const rootStyle = getComputedStyle(document.documentElement);
       
-      const initialPrimaryLStr = rootStyle.getPropertyValue('--primary-l').trim().replace('%', '');
-      const initialPrimaryL = initialPrimaryLStr ? parseFloat(initialPrimaryLStr) : 63;
-      setPrimaryLightness(initialPrimaryL);
-      document.documentElement.style.setProperty('--primary-l', `${initialPrimaryL}%`);
-
       const initialAccentLStr = rootStyle.getPropertyValue('--accent-l').trim().replace('%', '');
       const initialAccentL = initialAccentLStr ? parseFloat(initialAccentLStr) : 82;
       setAccentLightness(initialAccentL);
@@ -33,18 +28,17 @@ export default function HomePage() {
   const handleSettingChange = (id: string, value: number) => {
     if (typeof window === "undefined") return;
 
-    if (id === 'primaryLightnessControl') {
-      const newLightness = 20 + (value / 100) * 60; 
-      document.documentElement.style.setProperty('--primary-l', `${newLightness}%`);
-      setPrimaryLightness(newLightness);
-    } else if (id === 'featureCardOpacityControl') { // Changed ID
+    if (id === 'borderWidthControl') {
+      const newBorderWidth = (value / 100) * 8; // Maps 0-100 to 0px-8px
+      setFeatureCardBorderWidth(newBorderWidth);
+    } else if (id === 'featureCardOpacityControl') {
       const newOpacity = 0.1 + (value / 100) * 0.9; // Map 0-100 to 0.1-1.0
       setFeatureCardOpacity(newOpacity);
     } else if (id === 'cardBlurControl') {
-      const newBlur = (value / 100) * 24; 
+      const newBlur = (value / 100) * 24;
       setCardBlur(newBlur);
     } else if (id === 'accentLightnessControl') {
-      const newLightness = 40 + (value / 100) * 50; 
+      const newLightness = 40 + (value / 100) * 50;
       document.documentElement.style.setProperty('--accent-l', `${newLightness}%`);
       setAccentLightness(newLightness);
     }
@@ -66,8 +60,8 @@ export default function HomePage() {
     { name: "Sobre", href: "#project-details", icon: <Info /> },
   ];
 
-  const initialPrimaryLightnessSlider = Math.round(((primaryLightness - 20) / 60) * 100);
-  const initialFeatureCardOpacitySlider = Math.round(((featureCardOpacity - 0.1) / 0.9) * 100); // Updated for new range
+  const initialBorderWidthSlider = Math.round((featureCardBorderWidth / 8) * 100);
+  const initialFeatureCardOpacitySlider = Math.round(((featureCardOpacity - 0.1) / 0.9) * 100);
   const initialCardBlurSlider = Math.round((cardBlur / 24) * 100);
   const initialAccentLightnessSlider = Math.round(((accentLightness - 40) / 50) * 100);
 
@@ -80,18 +74,18 @@ export default function HomePage() {
     defaultValue: number;
   }> = [
     {
-      id: "primaryLightnessControl",
-      title: "Luminosidade Primária",
-      description: "Ajuste a luminosidade da cor primária.",
-      icon: <Palette />,
-      sliderLabel: "Luminosidade",
-      defaultValue: initialPrimaryLightnessSlider,
+      id: "borderWidthControl",
+      title: "Tamanho da Borda dos Cards",
+      description: "Ajuste a espessura da borda dos cards interativos.",
+      icon: <Frame />,
+      sliderLabel: "Espessura da Borda",
+      defaultValue: initialBorderWidthSlider,
     },
     {
-      id: "featureCardOpacityControl", // Changed ID
-      title: "Opacidade Fundo Cards Interativos", // Changed title
-      description: "Controle a opacidade do fundo dos cards interativos.", // Changed description
-      icon: <Layers />, // Changed icon
+      id: "featureCardOpacityControl",
+      title: "Opacidade Fundo Cards Interativos",
+      description: "Controle a opacidade do fundo dos cards interativos.",
+      icon: <Layers />,
       sliderLabel: "Opacidade",
       defaultValue: initialFeatureCardOpacitySlider,
     },
@@ -118,7 +112,6 @@ export default function HomePage() {
       className="min-h-screen text-foreground bg-cover bg-center transition-opacity duration-500"
       style={{ 
         backgroundImage: "url('https://w.wallhaven.cc/full/5y/wallhaven-5yd6d5.png')",
-        // Removed pageOpacity from here
       }}
       data-ai-hint="colorful abstract"
     >
@@ -137,11 +130,9 @@ export default function HomePage() {
             <h2 id="project-details-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-foreground drop-shadow-md">
               Detalhes do Projeto
             </h2>
-            {/* ProjectDetailsCard retains its fixed styling */}
             <ProjectDetailsCard {...projectDetails} />
           </section>
 
-          {/* NavigationLinks section retains its fixed styling */}
           <section 
             id="navigation" 
             aria-labelledby="navigation-heading" 
@@ -169,7 +160,8 @@ export default function HomePage() {
                   defaultValue={card.defaultValue}
                   onSettingChange={handleSettingChange}
                   currentBlur={card.id === 'cardBlurControl' ? cardBlur : undefined}
-                  backgroundOpacity={featureCardOpacity} // Pass featureCardOpacity to all FeatureCards
+                  backgroundOpacity={featureCardOpacity}
+                  borderWidth={featureCardBorderWidth}
                 />
               ))}
             </div>

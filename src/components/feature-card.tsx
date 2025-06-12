@@ -14,8 +14,9 @@ interface FeatureCardProps {
   sliderLabel: string;
   defaultValue?: number;
   onSettingChange: (id: string, value: number) => void;
-  currentBlur?: number; 
-  backgroundOpacity?: number; // New prop for background opacity
+  currentBlur?: number;
+  backgroundOpacity?: number;
+  borderWidth?: number; // New prop for border width
 }
 
 export const FeatureCard: FC<FeatureCardProps> = ({
@@ -27,7 +28,8 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   defaultValue = 50,
   onSettingChange,
   currentBlur,
-  backgroundOpacity, // Use the new prop
+  backgroundOpacity,
+  borderWidth, // Use the new prop
 }) => {
   const [sliderValueState, setSliderValueState] = useState<number[]>([defaultValue]);
   const [isMounted, setIsMounted] = useState(false);
@@ -45,8 +47,10 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   const currentDisplayValue = isMounted ? sliderValueState[0] : defaultValue;
 
   const cardStyle: React.CSSProperties = {
-    // hsla(0, 0%, 100%, opacity) - white background for card with dynamic opacity
-    backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.6})` 
+    backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.6})`,
+    borderWidth: borderWidth !== undefined ? `${borderWidth}px` : '1px',
+    borderStyle: 'solid',
+    borderColor: 'hsla(0, 0%, 100%, 0.2)', // Existing border color
   };
   if (currentBlur !== undefined) {
     cardStyle.backdropFilter = `blur(${currentBlur}px)`;
@@ -55,7 +59,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   
   return (
     <Card 
-      className="shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col rounded-xl overflow-hidden border border-white/20" // Removed bg-card/60
+      className="shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col rounded-xl overflow-hidden"
       style={cardStyle}
     >
       <CardHeader className="items-center text-center p-6 bg-transparent">
@@ -71,7 +75,10 @@ export const FeatureCard: FC<FeatureCardProps> = ({
             <Label htmlFor={`slider-${id}`} className="text-sm text-foreground drop-shadow-sm">
               {sliderLabel}
             </Label>
-            <span className="text-sm font-semibold text-primary w-12 text-right tabular-nums drop-shadow-sm">{currentDisplayValue}%</span>
+            <span className="text-sm font-semibold text-primary w-12 text-right tabular-nums drop-shadow-sm">
+              {currentDisplayValue}
+              {id === 'borderWidthControl' ? 'px' : '%'} 
+            </span>
           </div>
           {isMounted ? (
             <Slider
