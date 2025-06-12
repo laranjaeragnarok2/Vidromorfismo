@@ -11,19 +11,19 @@ interface SplineViewerProps {
 }
 
 export const SplineViewer: FC<SplineViewerProps> = ({ splineUrl, className }) => {
-  if (!splineUrl || splineUrl.includes("YOUR_SCENE_URL_HERE")) {
-    console.warn("SplineViewer: splineUrl is a placeholder. Please provide a valid Spline scene URL.");
-    // Optionally, render a placeholder or nothing if the URL isn't set
+  if (!splineUrl || splineUrl.includes("YOUR_SCENE_URL_HERE") || splineUrl.includes("PLACEHOLDER_URL")) {
+    console.warn("SplineViewer: splineUrl is a placeholder or invalid. Please provide a valid Spline scene URL.");
     return (
-      <div className={cn("fixed inset-0 z-[-1] flex items-center justify-center bg-gray-200", className)}>
-        <p className="text-gray-500">Spline scene not loaded. Please update the URL.</p>
+      <div className={cn("w-full h-full flex items-center justify-center bg-gray-200 text-gray-500", className)}>
+        <p className="p-4 text-center">Spline scene not loaded. Please update the URL.</p>
       </div>
     );
   }
 
   return (
-    <div className={cn("fixed inset-0 z-[-1] pointer-events-none", className)}>
-      <Spline scene={splineUrl} />
+    <div className={cn("w-full h-full", className)}>
+      {/* Ensure the Spline component itself also fills its container */}
+      <Spline scene={splineUrl} className="w-full h-full block" />
     </div>
   );
 };

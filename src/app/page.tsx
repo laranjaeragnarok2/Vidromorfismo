@@ -25,12 +25,10 @@ export default function HomePage() {
   const actualInnerBottomShadowBlur = (innerBottomShadowBlurSlider / 100) * 10;
 
   const actualShadowBlur = shadowBlurSlider / 100 * 40;
-  const actualShadowAlpha = shadowOpacitySlider / 100 * 0.3; // Max 30% opacity
+  const actualShadowAlpha = shadowOpacitySlider / 100 * 0.3; 
   const fixedOuterShadowOffsetY = 4;
 
-  // IMPORTANT: Replace this URL with your actual Spline scene URL
-  const splineSceneUrl = "https://prod.spline.design/YOUR_SCENE_URL_HERE";
-  // Example public Spline scene: https://prod.spline.design/abCDefGHi-jKLmnOp/scene.splinecode
+  const splineSceneUrl = "https://prod.spline.design/jMrByPm07zeU6Tku/scene.splinecode";
 
 
   const handleSettingChange = (id: string, value: number) => {
@@ -126,8 +124,9 @@ export default function HomePage() {
   ];
 
   const dynamicBoxShadow = `
-    inset 1px 1px 2px hsla(0, 0%, 100%, 0.85),
-    inset -1px -1px 2px hsla(0, 0%, 100%, 0.6),
+    inset 1px 1px 2px 0px hsla(0, 0%, 100%, 0.85), 
+    inset -1px -1px 2px 0px hsla(0, 0%, 100%, 0.6),
+    inset 0px 0px 0px 1px hsla(0, 0%, 100%, 0.1),
     inset 0px -3px ${actualInnerBottomShadowBlur.toFixed(1)}px 1px rgba(0, 0, 0, 0.2),
     0px ${fixedOuterShadowOffsetY}px ${actualShadowBlur.toFixed(1)}px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})
   `;
@@ -150,11 +149,11 @@ export default function HomePage() {
 
   return (
     <>
-      <SplineViewer splineUrl={splineSceneUrl} />
+      {/* Removed SplineViewer from global background */}
       <div
-        className="min-h-screen text-foreground bg-transparent transition-opacity duration-500"
+        className="min-h-screen text-foreground bg-background transition-opacity duration-500" // Restored bg-background
       >
-        <div className="container mx-auto px-4 py-8 md:py-12 relative z-10"> {/* Added relative z-10 to ensure content is above Spline */}
+        <div className="container mx-auto px-4 py-8 md:py-12 relative z-10">
           <header className="mb-12 md:mb-16 text-center">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-headline font-bold text-primary drop-shadow-lg">
               Liquid Glass React
@@ -168,13 +167,18 @@ export default function HomePage() {
             <section
               id="navigation"
               aria-labelledby="navigation-heading"
-              className={`py-10 md:py-12 scroll-mt-20`}
-              style={sharedCardStyle}
+              className="py-10 md:py-12 scroll-mt-20 relative rounded-lg overflow-hidden shadow-xl min-h-[300px] md:min-h-[400px]" // Added min-h for Spline visibility
+              // Removed sharedCardStyle, Spline will be the background here
             >
-              <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-slate-100 drop-shadow-md">
-                Navegação Rápida
-              </h2>
-              <NavigationLinks links={navLinks} />
+              <div className="absolute inset-0 z-0">
+                <SplineViewer splineUrl={splineSceneUrl} />
+              </div>
+              <div className="relative z-10"> {/* Content on top of Spline */}
+                <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-slate-100 drop-shadow-md">
+                  Navegação Rápida
+                </h2>
+                <NavigationLinks links={navLinks} />
+              </div>
             </section>
 
             <section id="features" aria-labelledby="features-heading" className="scroll-mt-20">
