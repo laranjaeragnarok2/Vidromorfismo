@@ -1,5 +1,6 @@
 
 import type { FC, ReactNode } from 'react';
+import React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { User, Briefcase, GitBranch } from 'lucide-react';
@@ -15,11 +16,39 @@ interface ProjectDetailsCardProps {
   description: string;
   author: string;
   links: LinkItem[];
+  backgroundOpacity?: number;
+  currentBlur?: number;
+  borderWidth?: number;
 }
 
-export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({ title, description, author, links }) => {
+export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({
+  title,
+  description,
+  author,
+  links,
+  backgroundOpacity,
+  currentBlur,
+  borderWidth,
+}) => {
+  const cardStyle: React.CSSProperties = {
+    backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.7})`,
+    borderStyle: 'solid',
+    borderColor: 'hsla(0, 0%, 100%, 0.2)',
+  };
+
+  if (currentBlur !== undefined) {
+    cardStyle.backdropFilter = `blur(${currentBlur}px)`;
+    cardStyle.WebkitBackdropFilter = `blur(${currentBlur}px)`;
+  }
+  if (borderWidth !== undefined) {
+    cardStyle.borderWidth = `${borderWidth}px`;
+  }
+
   return (
-    <Card className="w-full max-w-2xl mx-auto shadow-xl overflow-hidden rounded-xl bg-card/70 backdrop-blur-md border border-white/20">
+    <Card 
+      className="w-full max-w-2xl mx-auto shadow-xl overflow-hidden rounded-xl"
+      style={cardStyle}
+    >
       <CardHeader className="text-center bg-transparent p-6">
         <div className="mx-auto bg-primary/20 p-4 rounded-full w-fit mb-4 border border-primary/30">
          <Briefcase className="w-10 h-10 text-primary" />

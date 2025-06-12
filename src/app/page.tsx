@@ -11,27 +11,26 @@ import { Github, Link as LinkIcon, Sun, Settings2, HomeIcon, ListChecks, Info, L
 export default function HomePage() {
   const [featureCardOpacity, setFeatureCardOpacity] = useState(0.6);
   const [cardBlur, setCardBlur] = useState(12);
-  const [featureCardBorderWidth, setFeatureCardBorderWidth] = useState(1); // Default 1px
-  const [chromaticAberrationLevel, setChromaticAberrationLevel] = useState(0); // Novo estado
+  const [featureCardBorderWidth, setFeatureCardBorderWidth] = useState(1);
+  const [chromaticAberrationLevel, setChromaticAberrationLevel] = useState(0);
 
   useEffect(() => {
     // Efeito para inicializar valores pode ser mantido se necessário para outros controles
-    // A lógica de --accent-l foi removida
   }, []);
 
   const handleSettingChange = (id: string, value: number) => {
     if (typeof window === "undefined") return;
 
     if (id === 'borderWidthControl') {
-      const newBorderWidth = (value / 100) * 8; // Maps 0-100 to 0px-8px
+      const newBorderWidth = (value / 100) * 8;
       setFeatureCardBorderWidth(newBorderWidth);
     } else if (id === 'featureCardOpacityControl') {
-      const newOpacity = 0.1 + (value / 100) * 0.9; // Map 0-100 to 0.1-1.0
+      const newOpacity = 0.1 + (value / 100) * 0.9;
       setFeatureCardOpacity(newOpacity);
     } else if (id === 'cardBlurControl') {
       const newBlur = (value / 100) * 24;
       setCardBlur(newBlur);
-    } else if (id === 'chromaticAberrationControl') { // Novo controle
+    } else if (id === 'chromaticAberrationControl') {
       setChromaticAberrationLevel(value);
     }
   };
@@ -55,7 +54,7 @@ export default function HomePage() {
   const initialBorderWidthSlider = Math.round((featureCardBorderWidth / 8) * 100);
   const initialFeatureCardOpacitySlider = Math.round(((featureCardOpacity - 0.1) / 0.9) * 100);
   const initialCardBlurSlider = Math.round((cardBlur / 24) * 100);
-  const initialChromaticAberrationSlider = chromaticAberrationLevel; // Direto 0-100
+  const initialChromaticAberrationSlider = chromaticAberrationLevel;
 
   const featureCardsConfig: Array<{
     id: string;
@@ -90,14 +89,23 @@ export default function HomePage() {
       defaultValue: initialCardBlurSlider,
     },
     {
-      id: "chromaticAberrationControl", // Alterado
-      title: "Aberração Cromática", // Alterado
-      description: "Ajuste a intensidade da aberração cromática (efeito visual não implementado).", // Alterado
-      icon: <Filter />, // Alterado
-      sliderLabel: "Intensidade", // Alterado
-      defaultValue: initialChromaticAberrationSlider, // Alterado
+      id: "chromaticAberrationControl",
+      title: "Aberração Cromática",
+      description: "Ajuste a intensidade da aberração cromática (efeito visual não implementado).",
+      icon: <Filter />,
+      sliderLabel: "Intensidade",
+      defaultValue: initialChromaticAberrationSlider,
     },
   ];
+
+  const sharedCardStyle: React.CSSProperties = {
+    backgroundColor: `hsla(0, 0%, 100%, ${featureCardOpacity})`,
+    backdropFilter: `blur(${cardBlur}px)`,
+    WebkitBackdropFilter: `blur(${cardBlur}px)`,
+    borderWidth: `${featureCardBorderWidth}px`,
+    borderStyle: 'solid',
+    borderColor: 'hsla(0, 0%, 100%, 0.2)',
+  };
 
   return (
     <div
@@ -122,13 +130,19 @@ export default function HomePage() {
             <h2 id="project-details-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-foreground drop-shadow-md">
               Detalhes do Projeto
             </h2>
-            <ProjectDetailsCard {...projectDetails} />
+            <ProjectDetailsCard
+              {...projectDetails}
+              backgroundOpacity={featureCardOpacity}
+              currentBlur={cardBlur}
+              borderWidth={featureCardBorderWidth}
+            />
           </section>
 
           <section 
             id="navigation" 
             aria-labelledby="navigation-heading" 
-            className="py-10 md:py-12 bg-card/70 backdrop-blur-md shadow-lg rounded-xl scroll-mt-20 border border-white/20"
+            className="py-10 md:py-12 shadow-lg rounded-xl scroll-mt-20"
+            style={sharedCardStyle}
           >
             <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-foreground drop-shadow-md">
               Navegação Rápida
@@ -151,7 +165,7 @@ export default function HomePage() {
                   sliderLabel={card.sliderLabel}
                   defaultValue={card.defaultValue}
                   onSettingChange={handleSettingChange}
-                  currentBlur={card.id === 'cardBlurControl' ? cardBlur : undefined}
+                  currentBlur={cardBlur}
                   backgroundOpacity={featureCardOpacity}
                   borderWidth={featureCardBorderWidth}
                 />
