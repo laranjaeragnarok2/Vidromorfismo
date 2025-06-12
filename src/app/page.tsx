@@ -36,7 +36,7 @@ export default function HomePage() {
       setFeatureCardOpacitySlider(value);
     } else if (id === 'cardBlurControl') {
       setCardBlurSlider(value);
-    } else if (id === 'innerBottomShadowBlurControl') { // Changed from shadowOffsetYControl
+    } else if (id === 'innerBottomShadowBlurControl') { 
       setInnerBottomShadowBlurSlider(value);
     } else if (id === 'shadowBlurControl') {
       setShadowBlurSlider(value);
@@ -94,11 +94,11 @@ export default function HomePage() {
       defaultValue: cardBlurSlider,
     },
     {
-      id: "innerBottomShadowBlurControl", // Changed ID
-      title: "Profundidade Interna (Desfoque)", // Changed Title
-      description: "Ajuste o desfoque da sombra interna inferior para profundidade.", // Changed Description
-      icon: <Baseline />, // Changed Icon
-      sliderLabel: "Profund. Desfoque", // Changed Label
+      id: "innerBottomShadowBlurControl",
+      title: "Profundidade Interna (Desfoque)", 
+      description: "Ajuste o desfoque da sombra interna inferior para profundidade.", 
+      icon: <Baseline />, 
+      sliderLabel: "Profund. Desfoque", 
       defaultValue: innerBottomShadowBlurSlider,
     },
     {
@@ -119,19 +119,18 @@ export default function HomePage() {
     },
   ];
 
-  // Refined box shadow for a more realistic glass effect
   const dynamicBoxShadow = `
-    inset 0px 3px 4px -2px hsla(0, 0%, 100%, 0.35), 
-    inset 0px 1px 2px 0px hsla(0, 0%, 100%, 0.6),
-    inset 0px -2px ${actualInnerBottomShadowBlur.toFixed(1)}px rgba(0, 0, 0, 0.12),
+    inset 0px 2px 4px -1px hsla(0, 0%, 100%, 0.45),
+    inset 0px 1px 2px 0px hsla(0, 0%, 100%, 0.75),
+    inset 0px -3px ${actualInnerBottomShadowBlur.toFixed(1)}px 1px rgba(0, 0, 0, 0.2),
     0px ${fixedOuterShadowOffsetY}px ${actualShadowBlur.toFixed(1)}px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})
   `;
 
   const sharedCardStyleBase: Omit<React.CSSProperties, 'backdropFilter' | 'WebkitBackdropFilter' | 'boxShadow' | 'borderRadius'> = {
     backgroundColor: `hsla(0, 0%, 15%, ${actualFeatureCardOpacity})`,
-    borderWidth: '1px', // Kept 1px as per previous refinement towards iOS style
+    borderWidth: '2px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.15)', // Slightly more visible border
+    borderColor: 'hsla(0, 0%, 100%, 0.35)', 
   };
 
   const sharedCardStyle: React.CSSProperties = {
@@ -193,7 +192,7 @@ export default function HomePage() {
                   currentBlur={actualCardBlur}
                   backgroundOpacity={actualFeatureCardOpacity}
                   borderRadiusValue={actualCardBorderRadius}
-                  boxShadowStyle={dynamicBoxShadow} // Pass the full shadow style
+                  boxShadowStyle={dynamicBoxShadow} 
                 />
               ))}
             </div>
@@ -208,7 +207,7 @@ export default function HomePage() {
               backgroundOpacity={actualFeatureCardOpacity}
               currentBlur={actualCardBlur}
               borderRadiusValue={actualCardBorderRadius}
-              boxShadowStyle={dynamicBoxShadow} // Pass the full shadow style
+              boxShadowStyle={dynamicBoxShadow} 
             />
           </section>
         </main>
@@ -225,5 +224,4 @@ export default function HomePage() {
     </div>
   );
 }
-
     
