@@ -43,13 +43,11 @@ export const FeatureCard: FC<FeatureCardProps> = ({
 
   useEffect(() => {
     setIsMounted(true);
-    // Ensure sliderValueState is updated if defaultValue changes after mount (e.g. from parent state)
-    // This might not be strictly necessary if defaultValue is stable per card instance.
     if (sliderValueState[0] !== defaultValue) {
         setSliderValueState([defaultValue]);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultValue]); // Only re-run if defaultValue prop itself changes
+  }, [defaultValue]); 
 
   const handleSliderChange = (value: number[]) => {
     setSliderValueState(value);
@@ -58,28 +56,22 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   
   const getDisplayValueAndUnit = () => {
     const val = isMounted ? sliderValueState[0] : defaultValue;
-    // Calculations based on how HomePage maps slider 0-100 to actual values
     if (id === 'borderWidthControl') return { display: (val / 100 * 8).toFixed(1), unit: 'px' };
     if (id === 'featureCardOpacityControl') {
-        // Opacity is 0.1 to 1.0. Display as percentage 10% to 100%.
         const actualOpacity = 0.1 + (val / 100) * 0.9;
         return { display: (actualOpacity * 100).toFixed(0), unit: '%' };
     }
     if (id === 'cardBlurControl') return { display: (val / 100 * 24).toFixed(1), unit: 'px' };
-    
     if (id === 'shadowOffsetYControl') return { display: (val / 100 * 25).toFixed(1), unit: 'px' };
     if (id === 'shadowBlurControl') return { display: (val / 100 * 40).toFixed(1), unit: 'px' };
     if (id === 'shadowOpacityControl') {
-        // Opacity maps 0-100 slider to 0-0.5 alpha. Display as 0-50%.
         return { display: (val / 100 * 50).toFixed(0), unit: '%' };
     }
-
-    if (id === 'chromaticAberrationControl' || id === 'bevelControl') return { display: val.toFixed(0), unit: ''}; // Display raw 0-100
-    return { display: val.toFixed(0), unit: ''}; // Default for unimplemented
+    if (id === 'chromaticAberrationControl' || id === 'bevelControl') return { display: val.toFixed(0), unit: ''};
+    return { display: val.toFixed(0), unit: ''};
   };
 
   const { display: currentFormattedValue, unit: currentUnit } = getDisplayValueAndUnit();
-
 
   const cardStyle: React.CSSProperties = {
     backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.6})`,
@@ -132,14 +124,14 @@ export const FeatureCard: FC<FeatureCardProps> = ({
               aria-label={sliderLabel}
             />
           ) : (
-             <div className="h-5 flex items-center"> {/* Placeholder structure matching Slider's height */}
+             <div className="h-5 flex items-center"> 
                 <div className="relative flex h-2 w-full grow touch-none select-none items-center">
                     <span className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary/50">
                         <span className="absolute h-full bg-primary" style={{width: `${defaultValue}%`}}></span>
                     </span>
                     <span
                       className="absolute block h-5 w-5 rounded-full border-2 border-primary bg-background shadow-sm"
-                      style={{left: `calc(${defaultValue}% - 10px)`}} // Approximation for thumb position
+                      style={{left: `calc(${defaultValue}% - 10px)`}} 
                       role="slider"
                       aria-valuenow={defaultValue}
                       aria-label={sliderLabel}

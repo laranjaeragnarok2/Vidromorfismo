@@ -54,7 +54,6 @@ export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({
     cardStyle.boxShadow = `0px ${shadowOffsetY.toFixed(1)}px ${shadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${shadowOpacity.toFixed(2)})`;
   }
 
-
   return (
     <Card 
       className={cn("w-full max-w-2xl mx-auto overflow-hidden rounded-xl")}
