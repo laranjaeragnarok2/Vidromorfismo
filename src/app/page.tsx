@@ -150,8 +150,8 @@ export default function HomePage() {
   return (
     <>
       <div
-        className="min-h-screen text-foreground transition-opacity duration-500 bg-cover bg-center bg-no-repeat bg-fixed bg-[url('https://placehold.co/1920x1080.png')]"
-        data-ai-hint="abstract background"
+        className="min-h-screen text-foreground transition-opacity duration-500 bg-cover bg-center bg-no-repeat bg-fixed bg-[url('https://w.wallhaven.cc/full/gw/wallhaven-gwjq3d.jpg')]"
+        data-ai-hint="abstract geometric"
       >
         <div className="container mx-auto px-4 py-8 md:py-12 relative z-10">
           <header className="mb-12 md:mb-16 text-center">
