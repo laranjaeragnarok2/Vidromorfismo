@@ -102,14 +102,14 @@ export const FeatureCard: FC<FeatureCardProps> = ({
       className={cn("transition-shadow duration-300 flex flex-col rounded-xl overflow-hidden")}
       style={cardStyle}
     >
-      <CardHeader className="items-center text-center p-6 bg-transparent">
-        <div className="mb-4 p-4 bg-primary/20 rounded-full w-fit border border-primary/30">
-          {React.cloneElement(icon as React.ReactElement, { className: "w-8 h-8 text-primary"})}
+      <CardHeader className="items-center text-center p-4 bg-transparent">
+        <div className="mb-2 p-3 bg-primary/20 rounded-full w-fit border border-primary/30">
+          {React.cloneElement(icon as React.ReactElement, { className: "w-6 h-6 text-primary"})}
         </div>
-        <CardTitle className="text-xl font-headline text-foreground drop-shadow-sm">{title}</CardTitle>
+        <CardTitle className="text-lg font-headline text-foreground drop-shadow-sm">{title}</CardTitle>
         <CardDescription className="mt-1 text-muted-foreground drop-shadow-sm">{description}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-grow flex flex-col justify-end p-6 bg-transparent">
+      <CardContent className="flex-grow flex flex-col justify-end p-4 bg-transparent">
         <div className="space-y-3 pt-4">
           <div className="flex justify-between items-center mb-2">
             <Label htmlFor={`slider-${id}`} className="text-sm text-foreground drop-shadow-sm">
@@ -149,7 +149,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
           )}
         </div>
       </CardContent>
-      <CardFooter className="p-4 bg-transparent border-t border-white/10 justify-center">
+      <CardFooter className="p-3 bg-transparent border-t border-white/10 justify-center">
         <p className="text-xs text-muted-foreground drop-shadow-sm">Ajuste para personalizar</p>
       </CardFooter>
     </Card>
