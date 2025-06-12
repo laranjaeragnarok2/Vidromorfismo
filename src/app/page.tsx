@@ -116,13 +116,13 @@ export default function HomePage() {
     },
   ];
 
-  const dynamicBoxShadow = `inset 0 2px 4px hsla(0, 0%, 100%, 0.7), inset 0 -2px 2px hsla(210, 20%, 0%, 0.15), 0px ${actualShadowOffsetY.toFixed(1)}px ${actualShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})`;
+  const dynamicBoxShadow = `inset 0 3px 5px hsla(0, 0%, 100%, 0.65), inset 0 1px 1px hsla(0, 0%, 100%, 0.8), inset 0 -2px 2px hsla(210, 30%, 10%, 0.2), 0px ${actualShadowOffsetY.toFixed(1)}px ${actualShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})`;
 
   const sharedCardStyleBase: Omit<React.CSSProperties, 'backdropFilter' | 'WebkitBackdropFilter' | 'boxShadow' | 'borderRadius'> = {
     backgroundColor: `hsla(0, 0%, 100%, ${actualFeatureCardOpacity})`,
     borderWidth: '2px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.45)', // Ajustado para borda mais definida
+    borderColor: 'hsla(0, 0%, 100%, 0.35)',
   };
 
   const sharedCardStyle: React.CSSProperties = {
@@ -184,7 +184,7 @@ export default function HomePage() {
                   currentBlur={actualCardBlur}
                   backgroundOpacity={actualFeatureCardOpacity}
                   borderRadiusValue={actualCardBorderRadius}
-                  boxShadowStyle={dynamicBoxShadow} // Passa a string completa da sombra
+                  boxShadowStyle={dynamicBoxShadow}
                 />
               ))}
             </div>
@@ -199,7 +199,7 @@ export default function HomePage() {
               backgroundOpacity={actualFeatureCardOpacity}
               currentBlur={actualCardBlur}
               borderRadiusValue={actualCardBorderRadius}
-              boxShadowStyle={dynamicBoxShadow} // Passa a string completa da sombra
+              boxShadowStyle={dynamicBoxShadow}
             />
           </section>
         </main>
@@ -216,5 +216,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-    
