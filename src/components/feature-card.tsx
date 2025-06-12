@@ -14,7 +14,8 @@ interface FeatureCardProps {
   sliderLabel: string;
   defaultValue?: number;
   onSettingChange: (id: string, value: number) => void;
-  currentBlur?: number; // Optional: only for cards that control blur directly
+  currentBlur?: number; 
+  backgroundOpacity?: number; // New prop for background opacity
 }
 
 export const FeatureCard: FC<FeatureCardProps> = ({
@@ -26,13 +27,13 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   defaultValue = 50,
   onSettingChange,
   currentBlur,
+  backgroundOpacity, // Use the new prop
 }) => {
   const [sliderValueState, setSliderValueState] = useState<number[]>([defaultValue]);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
-    // Update slider position if defaultValue changes from props (e.g. on initial load from HomePage state)
     setSliderValueState([defaultValue]);
   }, [defaultValue]);
 
@@ -43,16 +44,18 @@ export const FeatureCard: FC<FeatureCardProps> = ({
 
   const currentDisplayValue = isMounted ? sliderValueState[0] : defaultValue;
 
-  const cardStyle: React.CSSProperties = {};
+  const cardStyle: React.CSSProperties = {
+    // hsla(0, 0%, 100%, opacity) - white background for card with dynamic opacity
+    backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.6})` 
+  };
   if (currentBlur !== undefined) {
     cardStyle.backdropFilter = `blur(${currentBlur}px)`;
-    // For webkit browsers if backdrop-filter is not supported for background images directly
     cardStyle.WebkitBackdropFilter = `blur(${currentBlur}px)`;
   }
   
   return (
     <Card 
-      className="shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col rounded-xl overflow-hidden bg-card/60 border border-white/20"
+      className="shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col rounded-xl overflow-hidden border border-white/20" // Removed bg-card/60
       style={cardStyle}
     >
       <CardHeader className="items-center text-center p-6 bg-transparent">

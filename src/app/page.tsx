@@ -2,20 +2,19 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
-import { Github, Link as LinkIcon, Palette, Sun, Settings2, HomeIcon, ListChecks, Info, Droplets } from 'lucide-react';
+import { Github, Link as LinkIcon, Palette, Sun, Settings2, HomeIcon, ListChecks, Info, Droplets, Layers } from 'lucide-react';
 
 export default function HomePage() {
   const [primaryLightness, setPrimaryLightness] = useState(63);
-  const [pageOpacity, setPageOpacity] = useState(1);
-  const [cardBlur, setCardBlur] = useState(12); // Default blur (equivalent to backdrop-blur-lg)
+  const [featureCardOpacity, setFeatureCardOpacity] = useState(0.6); // Renamed from pageOpacity, default 60%
+  const [cardBlur, setCardBlur] = useState(12); 
   const [accentLightness, setAccentLightness] = useState(82);
 
   useEffect(() => {
-    // Initialize CSS variables from their default values in globals.css
-    // or ensure they are set if JS is manipulating them.
     if (typeof window !== "undefined") {
       const rootStyle = getComputedStyle(document.documentElement);
       
@@ -35,17 +34,17 @@ export default function HomePage() {
     if (typeof window === "undefined") return;
 
     if (id === 'primaryLightnessControl') {
-      const newLightness = 20 + (value / 100) * 60; // Map 0-100 to 20%-80%
+      const newLightness = 20 + (value / 100) * 60; 
       document.documentElement.style.setProperty('--primary-l', `${newLightness}%`);
       setPrimaryLightness(newLightness);
-    } else if (id === 'pageOpacityControl') {
-      const newOpacity = 0.3 + (value / 100) * 0.7; // Map 0-100 to 0.3-1.0
-      setPageOpacity(newOpacity);
+    } else if (id === 'featureCardOpacityControl') { // Changed ID
+      const newOpacity = 0.1 + (value / 100) * 0.9; // Map 0-100 to 0.1-1.0
+      setFeatureCardOpacity(newOpacity);
     } else if (id === 'cardBlurControl') {
-      const newBlur = (value / 100) * 24; // Map 0-100 to 0px-24px
+      const newBlur = (value / 100) * 24; 
       setCardBlur(newBlur);
     } else if (id === 'accentLightnessControl') {
-      const newLightness = 40 + (value / 100) * 50; // Map 0-100 to 40%-90%
+      const newLightness = 40 + (value / 100) * 50; 
       document.documentElement.style.setProperty('--accent-l', `${newLightness}%`);
       setAccentLightness(newLightness);
     }
@@ -67,14 +66,19 @@ export default function HomePage() {
     { name: "Sobre", href: "#project-details", icon: <Info /> },
   ];
 
-  // Calculate default slider values (0-100) based on initial state
   const initialPrimaryLightnessSlider = Math.round(((primaryLightness - 20) / 60) * 100);
-  const initialPageOpacitySlider = Math.round(((pageOpacity - 0.3) / 0.7) * 100);
+  const initialFeatureCardOpacitySlider = Math.round(((featureCardOpacity - 0.1) / 0.9) * 100); // Updated for new range
   const initialCardBlurSlider = Math.round((cardBlur / 24) * 100);
   const initialAccentLightnessSlider = Math.round(((accentLightness - 40) / 50) * 100);
 
-
-  const featureCardsConfig = [
+  const featureCardsConfig: Array<{
+    id: string;
+    title: string;
+    description: string;
+    icon: ReactNode;
+    sliderLabel: string;
+    defaultValue: number;
+  }> = [
     {
       id: "primaryLightnessControl",
       title: "Luminosidade Primária",
@@ -84,17 +88,17 @@ export default function HomePage() {
       defaultValue: initialPrimaryLightnessSlider,
     },
     {
-      id: "pageOpacityControl",
-      title: "Opacidade da Página",
-      description: "Controle a opacidade do fundo da página.",
-      icon: <Sun />,
+      id: "featureCardOpacityControl", // Changed ID
+      title: "Opacidade Fundo Cards Interativos", // Changed title
+      description: "Controle a opacidade do fundo dos cards interativos.", // Changed description
+      icon: <Layers />, // Changed icon
       sliderLabel: "Opacidade",
-      defaultValue: initialPageOpacitySlider,
+      defaultValue: initialFeatureCardOpacitySlider,
     },
     {
       id: "cardBlurControl",
-      title: "Desfoque dos Cards",
-      description: "Ajuste o nível de desfoque dos cards.",
+      title: "Desfoque dos Cards Interativos",
+      description: "Ajuste o nível de desfoque dos cards interativos.",
       icon: <Settings2 />,
       sliderLabel: "Nível de Desfoque",
       defaultValue: initialCardBlurSlider,
@@ -114,7 +118,7 @@ export default function HomePage() {
       className="min-h-screen text-foreground bg-cover bg-center transition-opacity duration-500"
       style={{ 
         backgroundImage: "url('https://w.wallhaven.cc/full/5y/wallhaven-5yd6d5.png')",
-        opacity: pageOpacity 
+        // Removed pageOpacity from here
       }}
       data-ai-hint="colorful abstract"
     >
@@ -133,10 +137,16 @@ export default function HomePage() {
             <h2 id="project-details-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-foreground drop-shadow-md">
               Detalhes do Projeto
             </h2>
+            {/* ProjectDetailsCard retains its fixed styling */}
             <ProjectDetailsCard {...projectDetails} />
           </section>
 
-          <section id="navigation" aria-labelledby="navigation-heading" className="py-10 md:py-12 bg-card/70 backdrop-blur-md shadow-lg rounded-xl scroll-mt-20 border border-white/20">
+          {/* NavigationLinks section retains its fixed styling */}
+          <section 
+            id="navigation" 
+            aria-labelledby="navigation-heading" 
+            className="py-10 md:py-12 bg-card/70 backdrop-blur-md shadow-lg rounded-xl scroll-mt-20 border border-white/20"
+          >
             <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-foreground drop-shadow-md">
               Navegação Rápida
             </h2>
@@ -158,7 +168,8 @@ export default function HomePage() {
                   sliderLabel={card.sliderLabel}
                   defaultValue={card.defaultValue}
                   onSettingChange={handleSettingChange}
-                  currentBlur={card.id === 'cardBlurControl' ? cardBlur : undefined} // Pass blur only to the relevant card
+                  currentBlur={card.id === 'cardBlurControl' ? cardBlur : undefined}
+                  backgroundOpacity={featureCardOpacity} // Pass featureCardOpacity to all FeatureCards
                 />
               ))}
             </div>
