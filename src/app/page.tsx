@@ -116,12 +116,13 @@ export default function HomePage() {
     },
   ];
 
-  const dynamicBoxShadow = `inset 0px 1px 1px hsla(0, 0%, 100%, 0.3), 0px ${actualShadowOffsetY.toFixed(1)}px ${actualShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})`;
+  const dynamicBoxShadow = `inset 0 1px 2px hsla(0, 0%, 100%, 0.5), inset 0 -1px 1px hsla(240, 10%, 20%, 0.1), 0px ${actualShadowOffsetY.toFixed(1)}px ${actualShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})`;
 
   const sharedCardStyleBase: Omit<React.CSSProperties, 'backdropFilter' | 'WebkitBackdropFilter' | 'boxShadow' | 'borderRadius'> = {
     backgroundColor: `hsla(0, 0%, 100%, ${actualFeatureCardOpacity})`,
+    borderWidth: '2px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.2)',
+    borderColor: 'hsla(0, 0%, 100%, 0.35)',
   };
 
   const sharedCardStyle: React.CSSProperties = {

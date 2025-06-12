@@ -74,8 +74,9 @@ export const FeatureCard: FC<FeatureCardProps> = ({
 
   const cardStyle: React.CSSProperties = {
     backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.6})`,
+    borderWidth: '2px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.2)',
+    borderColor: 'hsla(0, 0%, 100%, 0.35)',
   };
    if (borderRadiusValue !== undefined) {
     cardStyle.borderRadius = `${borderRadiusValue.toFixed(2)}rem`;
@@ -85,7 +86,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     cardStyle.WebkitBackdropFilter = `blur(${currentBlur.toFixed(1)}px)`;
   }
   if (shadowOffsetY !== undefined && shadowBlur !== undefined && shadowOpacity !== undefined) {
-    cardStyle.boxShadow = `inset 0px 1px 1px hsla(0, 0%, 100%, 0.3), 0px ${shadowOffsetY.toFixed(1)}px ${shadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${shadowOpacity.toFixed(2)})`;
+    cardStyle.boxShadow = `inset 0 1px 2px hsla(0, 0%, 100%, 0.5), inset 0 -1px 1px hsla(240, 10%, 20%, 0.1), 0px ${shadowOffsetY.toFixed(1)}px ${shadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${shadowOpacity.toFixed(2)})`;
   }
   
   return (
