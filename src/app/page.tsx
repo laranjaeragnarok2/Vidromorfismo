@@ -9,12 +9,12 @@ import { FeatureCard } from '@/components/feature-card';
 import { Github, Instagram, Settings2, HomeIcon, ListChecks, Info, Layers, Shapes, ArrowDownUp, Droplet, Contrast } from 'lucide-react';
 
 export default function HomePage() {
-  const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(56); // 0-100, maps to 0.1-1.0
-  const [cardBlurSlider, setCardBlurSlider] = useState(50); // 0-100, maps to 0-24px
-  const [cardBorderRadiusSlider, setCardBorderRadiusSlider] = useState(37.5); // 0-100, maps to 0-2rem (default 0.75rem)
-  const [shadowOffsetYSlider, setShadowOffsetYSlider] = useState(40); // 0-100, maps to 0-25px
-  const [shadowBlurSlider, setShadowBlurSlider] = useState(38); // 0-100, maps to 0-40px
-  const [shadowOpacitySlider, setShadowOpacitySlider] = useState(40); // 0-100, maps to 0-0.5 alpha
+  const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(56); // Maps to 60% opacity
+  const [cardBlurSlider, setCardBlurSlider] = useState(50); // Maps to 12px blur
+  const [cardBorderRadiusSlider, setCardBorderRadiusSlider] = useState(37.5); // Maps to 0.75rem radius
+  const [shadowOffsetYSlider, setShadowOffsetYSlider] = useState(40); // Maps to 10px Y offset
+  const [shadowBlurSlider, setShadowBlurSlider] = useState(38); // Maps to 15.2px shadow blur
+  const [shadowOpacitySlider, setShadowOpacitySlider] = useState(40); // Maps to 0.2 (20%) shadow opacity
 
   // Derived values for actual use
   const actualFeatureCardOpacity = 0.1 + (featureCardOpacitySlider / 100) * 0.9;
