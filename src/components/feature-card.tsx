@@ -16,7 +16,7 @@ interface FeatureCardProps {
   onSettingChange: (id: string, value: number) => void;
   currentBlur?: number;
   backgroundOpacity?: number;
-  borderWidth?: number; // New prop for border width
+  borderWidth?: number;
 }
 
 export const FeatureCard: FC<FeatureCardProps> = ({
@@ -29,7 +29,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   onSettingChange,
   currentBlur,
   backgroundOpacity,
-  borderWidth, // Use the new prop
+  borderWidth,
 }) => {
   const [sliderValueState, setSliderValueState] = useState<number[]>([defaultValue]);
   const [isMounted, setIsMounted] = useState(false);
@@ -46,11 +46,17 @@ export const FeatureCard: FC<FeatureCardProps> = ({
 
   const currentDisplayValue = isMounted ? sliderValueState[0] : defaultValue;
 
+  const getUnit = () => {
+    if (id === 'borderWidthControl') return 'px';
+    if (id === 'featureCardOpacityControl' || id === 'cardBlurControl') return '%';
+    return ''; // No unit for chromatic aberration intensity or others by default
+  };
+
   const cardStyle: React.CSSProperties = {
     backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.6})`,
     borderWidth: borderWidth !== undefined ? `${borderWidth}px` : '1px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.2)', // Existing border color
+    borderColor: 'hsla(0, 0%, 100%, 0.2)',
   };
   if (currentBlur !== undefined) {
     cardStyle.backdropFilter = `blur(${currentBlur}px)`;
@@ -77,7 +83,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
             </Label>
             <span className="text-sm font-semibold text-primary w-12 text-right tabular-nums drop-shadow-sm">
               {currentDisplayValue}
-              {id === 'borderWidthControl' ? 'px' : '%'} 
+              {getUnit()}
             </span>
           </div>
           {isMounted ? (

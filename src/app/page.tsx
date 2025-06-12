@@ -6,23 +6,17 @@ import type { ReactNode } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
-import { Github, Link as LinkIcon, Sun, Settings2, HomeIcon, ListChecks, Info, Droplets, Layers, Frame } from 'lucide-react';
+import { Github, Link as LinkIcon, Sun, Settings2, HomeIcon, ListChecks, Info, Layers, Frame, Filter } from 'lucide-react';
 
 export default function HomePage() {
   const [featureCardOpacity, setFeatureCardOpacity] = useState(0.6);
   const [cardBlur, setCardBlur] = useState(12);
-  const [accentLightness, setAccentLightness] = useState(82);
   const [featureCardBorderWidth, setFeatureCardBorderWidth] = useState(1); // Default 1px
+  const [chromaticAberrationLevel, setChromaticAberrationLevel] = useState(0); // Novo estado
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const rootStyle = getComputedStyle(document.documentElement);
-      
-      const initialAccentLStr = rootStyle.getPropertyValue('--accent-l').trim().replace('%', '');
-      const initialAccentL = initialAccentLStr ? parseFloat(initialAccentLStr) : 82;
-      setAccentLightness(initialAccentL);
-      document.documentElement.style.setProperty('--accent-l', `${initialAccentL}%`);
-    }
+    // Efeito para inicializar valores pode ser mantido se necessário para outros controles
+    // A lógica de --accent-l foi removida
   }, []);
 
   const handleSettingChange = (id: string, value: number) => {
@@ -37,10 +31,8 @@ export default function HomePage() {
     } else if (id === 'cardBlurControl') {
       const newBlur = (value / 100) * 24;
       setCardBlur(newBlur);
-    } else if (id === 'accentLightnessControl') {
-      const newLightness = 40 + (value / 100) * 50;
-      document.documentElement.style.setProperty('--accent-l', `${newLightness}%`);
-      setAccentLightness(newLightness);
+    } else if (id === 'chromaticAberrationControl') { // Novo controle
+      setChromaticAberrationLevel(value);
     }
   };
 
@@ -63,7 +55,7 @@ export default function HomePage() {
   const initialBorderWidthSlider = Math.round((featureCardBorderWidth / 8) * 100);
   const initialFeatureCardOpacitySlider = Math.round(((featureCardOpacity - 0.1) / 0.9) * 100);
   const initialCardBlurSlider = Math.round((cardBlur / 24) * 100);
-  const initialAccentLightnessSlider = Math.round(((accentLightness - 40) / 50) * 100);
+  const initialChromaticAberrationSlider = chromaticAberrationLevel; // Direto 0-100
 
   const featureCardsConfig: Array<{
     id: string;
@@ -98,12 +90,12 @@ export default function HomePage() {
       defaultValue: initialCardBlurSlider,
     },
     {
-      id: "accentLightnessControl",
-      title: "Luminosidade do Destaque",
-      description: "Ajuste a luminosidade da cor de destaque.",
-      icon: <Droplets />,
-      sliderLabel: "Luminosidade",
-      defaultValue: initialAccentLightnessSlider,
+      id: "chromaticAberrationControl", // Alterado
+      title: "Aberração Cromática", // Alterado
+      description: "Ajuste a intensidade da aberração cromática (efeito visual não implementado).", // Alterado
+      icon: <Filter />, // Alterado
+      sliderLabel: "Intensidade", // Alterado
+      defaultValue: initialChromaticAberrationSlider, // Alterado
     },
   ];
 
