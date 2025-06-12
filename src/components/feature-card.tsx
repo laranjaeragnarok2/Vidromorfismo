@@ -32,36 +32,44 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   currentBlur,
   backgroundOpacity,
   borderRadiusValue,
-  boxShadowStyle, 
+  boxShadowStyle,
 }) => {
   const [sliderValueState, setSliderValueState] = useState<number[]>([defaultValue]);
-  const [isMounted, setIsMounted] = useState(false);
+  const [isMountedForSlider, setIsMountedForSlider] = useState(false); // For slider hydration
+  const [isClientForIcon, setIsClientForIcon] = useState(false); // For icon hydration
 
   useEffect(() => {
-    setIsMounted(true);
-    if (sliderValueState[0] !== defaultValue) {
+    // This effect runs once after the component mounts on the client.
+    setIsMountedForSlider(true); // Enable interactive slider
+    setIsClientForIcon(true); // Enable icon rendering
+  }, []); // Empty dependency array ensures this runs only once on mount
+
+  useEffect(() => {
+    // This effect synchronizes the internal slider state if the defaultValue prop changes.
+    // It only runs if the component has already mounted to avoid issues during initial render.
+    if (isMountedForSlider && sliderValueState[0] !== defaultValue) {
         setSliderValueState([defaultValue]);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultValue]); 
+  }, [defaultValue, isMountedForSlider, sliderValueState]); 
 
   const handleSliderChange = (value: number[]) => {
     setSliderValueState(value);
     onSettingChange(id, value[0]);
   };
-  
+
   const getDisplayValueAndUnit = () => {
-    const val = isMounted ? sliderValueState[0] : defaultValue;
+    // Use sliderValueState if component is mounted, otherwise stick to defaultValue prop
+    const val = isMountedForSlider ? sliderValueState[0] : defaultValue;
     if (id === 'cardBorderRadiusControl') return { display: (val / 100 * 2).toFixed(2), unit: 'rem' };
     if (id === 'featureCardOpacityControl') {
         const actualOpacity = 0.1 + (val / 100) * 0.9;
         return { display: (actualOpacity * 100).toFixed(0), unit: '%' };
     }
     if (id === 'cardBlurControl') return { display: (val / 100 * 24).toFixed(1), unit: 'px' };
-    if (id === 'innerBottomShadowBlurControl') return { display: (val / 100 * 10).toFixed(1), unit: 'px' }; 
+    if (id === 'innerBottomShadowBlurControl') return { display: (val / 100 * 10).toFixed(1), unit: 'px' };
     if (id === 'shadowBlurControl') return { display: (val / 100 * 40).toFixed(1), unit: 'px' };
     if (id === 'shadowOpacityControl') {
-        return { display: (val / 100 * 30).toFixed(0), unit: '%' }; // Updated to reflect 0-30% range
+        return { display: (val / 100 * 30).toFixed(0), unit: '%' };
     }
     return { display: val.toFixed(0), unit: ''};
   };
@@ -72,7 +80,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     backgroundColor: `hsla(0, 0%, 15%, ${backgroundOpacity ?? 0.6})`,
     borderWidth: '1px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.1)', 
+    borderColor: 'hsla(0, 0%, 100%, 0.1)',
   };
    if (borderRadiusValue !== undefined) {
     cardStyle.borderRadius = `${borderRadiusValue.toFixed(2)}rem`;
@@ -84,7 +92,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   if (boxShadowStyle !== undefined) {
     cardStyle.boxShadow = boxShadowStyle;
   }
-  
+
   return (
     <Card
       className={cn("transition-shadow duration-300 flex flex-col overflow-hidden")}
@@ -92,7 +100,11 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     >
       <CardHeader className="items-center text-center p-4 bg-transparent">
         <div className="mb-2 p-3 bg-primary/20 rounded-full w-fit border border-primary/30">
-          {React.cloneElement(icon as React.ReactElement, { className: "w-6 h-6 text-primary"})}
+          {isClientForIcon ? (
+            React.cloneElement(icon as React.ReactElement, { className: "w-6 h-6 text-primary"})
+          ) : (
+            <div className="w-6 h-6" /> // Placeholder to match dimensions, avoids layout shift
+          )}
         </div>
         <CardTitle className="text-lg font-headline text-slate-100 drop-shadow-sm">{title}</CardTitle>
         <CardDescription className="mt-1 text-slate-300 drop-shadow-sm">{description}</CardDescription>
@@ -108,11 +120,11 @@ export const FeatureCard: FC<FeatureCardProps> = ({
               {currentUnit}
             </span>
           </div>
-          {isMounted ? (
+          {isMountedForSlider ? (
             <Slider
               id={`slider-${id}`}
               value={sliderValueState}
-              defaultValue={[defaultValue]}
+              defaultValue={[defaultValue]} // defaultValue for initial state, value for controlled state
               max={100}
               step={1}
               onValueChange={handleSliderChange}
@@ -120,14 +132,14 @@ export const FeatureCard: FC<FeatureCardProps> = ({
               aria-label={sliderLabel}
             />
           ) : (
-             <div className="h-5 flex items-center"> 
+             <div className="h-5 flex items-center">
                 <div className="relative flex h-2 w-full grow touch-none select-none items-center">
                     <span className="relative h-2 w-full grow overflow-hidden rounded-full bg-slate-700/50">
                         <span className="absolute h-full bg-primary" style={{width: `${defaultValue}%`}}></span>
                     </span>
                     <span
                       className="absolute block h-5 w-5 rounded-full border-2 border-primary bg-slate-800 shadow-sm"
-                      style={{left: `calc(${defaultValue}% - 10px)`}} 
+                      style={{left: `calc(${defaultValue}% - 10px)`}}
                       role="slider"
                       aria-valuenow={defaultValue}
                       aria-label={sliderLabel}
@@ -143,4 +155,3 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     </Card>
   );
 };
-    
