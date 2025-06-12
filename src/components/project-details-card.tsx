@@ -4,6 +4,7 @@ import React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { User, Briefcase, GitBranch } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface LinkItem {
   name: string;
@@ -19,6 +20,7 @@ interface ProjectDetailsCardProps {
   backgroundOpacity?: number;
   currentBlur?: number;
   borderWidth?: number;
+  shadowClassName?: string;
 }
 
 export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({
@@ -29,6 +31,7 @@ export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({
   backgroundOpacity,
   currentBlur,
   borderWidth,
+  shadowClassName,
 }) => {
   const cardStyle: React.CSSProperties = {
     backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.7})`,
@@ -46,7 +49,7 @@ export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({
 
   return (
     <Card 
-      className="w-full max-w-2xl mx-auto shadow-xl overflow-hidden rounded-xl"
+      className={cn("w-full max-w-2xl mx-auto overflow-hidden rounded-xl", shadowClassName)}
       style={cardStyle}
     >
       <CardHeader className="text-center bg-transparent p-6">
@@ -87,3 +90,5 @@ export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({
     </Card>
   );
 };
+
+    

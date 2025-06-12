@@ -6,17 +6,29 @@ import type { ReactNode } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
-import { Github, Link as LinkIcon, Sun, Settings2, HomeIcon, ListChecks, Info, Layers, Frame, Filter } from 'lucide-react';
+import { Github, Link as LinkIcon, Sun, Settings2, HomeIcon, ListChecks, Info, Layers, Frame, Filter, BoxSelect } from 'lucide-react';
 
 export default function HomePage() {
   const [featureCardOpacity, setFeatureCardOpacity] = useState(0.6);
   const [cardBlur, setCardBlur] = useState(12);
   const [featureCardBorderWidth, setFeatureCardBorderWidth] = useState(1);
   const [chromaticAberrationLevel, setChromaticAberrationLevel] = useState(0);
+  const [dropShadowIntensity, setDropShadowIntensity] = useState(60); // Default to a value that maps to shadow-lg
+  const [currentDropShadowClass, setCurrentDropShadowClass] = useState('shadow-lg');
 
   useEffect(() => {
-    // Efeito para inicializar valores pode ser mantido se necessário para outros controles
+    // Initial shadow class update based on default intensity
+    updateShadowClass(dropShadowIntensity);
   }, []);
+
+  const updateShadowClass = (intensity: number) => {
+    if (intensity < 20) setCurrentDropShadowClass('');
+    else if (intensity < 40) setCurrentDropShadowClass('shadow-sm');
+    else if (intensity < 60) setCurrentDropShadowClass('shadow-md');
+    else if (intensity < 80) setCurrentDropShadowClass('shadow-lg');
+    else if (intensity < 95) setCurrentDropShadowClass('shadow-xl');
+    else setCurrentDropShadowClass('shadow-2xl');
+  };
 
   const handleSettingChange = (id: string, value: number) => {
     if (typeof window === "undefined") return;
@@ -32,6 +44,9 @@ export default function HomePage() {
       setCardBlur(newBlur);
     } else if (id === 'chromaticAberrationControl') {
       setChromaticAberrationLevel(value);
+    } else if (id === 'dropShadowControl') {
+      setDropShadowIntensity(value);
+      updateShadowClass(value);
     }
   };
 
@@ -55,6 +70,7 @@ export default function HomePage() {
   const initialFeatureCardOpacitySlider = Math.round(((featureCardOpacity - 0.1) / 0.9) * 100);
   const initialCardBlurSlider = Math.round((cardBlur / 24) * 100);
   const initialChromaticAberrationSlider = chromaticAberrationLevel;
+  const initialDropShadowSlider = dropShadowIntensity;
 
   const featureCardsConfig: Array<{
     id: string;
@@ -96,15 +112,27 @@ export default function HomePage() {
       sliderLabel: "Intensidade",
       defaultValue: initialChromaticAberrationSlider,
     },
+    {
+      id: "dropShadowControl",
+      title: "Sombra Projetada nos Cards",
+      description: "Ajuste a intensidade da sombra projetada nos cards.",
+      icon: <BoxSelect />,
+      sliderLabel: "Intensidade da Sombra",
+      defaultValue: initialDropShadowSlider,
+    },
   ];
 
-  const sharedCardStyle: React.CSSProperties = {
+  const sharedCardStyleBase: Omit<React.CSSProperties, 'backdropFilter' | 'WebkitBackdropFilter' | 'borderWidth'> = {
     backgroundColor: `hsla(0, 0%, 100%, ${featureCardOpacity})`,
+    borderStyle: 'solid',
+    borderColor: 'hsla(0, 0%, 100%, 0.2)',
+  };
+  
+  const sharedCardStyle: React.CSSProperties = {
+    ...sharedCardStyleBase,
     backdropFilter: `blur(${cardBlur}px)`,
     WebkitBackdropFilter: `blur(${cardBlur}px)`,
     borderWidth: `${featureCardBorderWidth}px`,
-    borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.2)',
   };
 
   return (
@@ -135,13 +163,14 @@ export default function HomePage() {
               backgroundOpacity={featureCardOpacity}
               currentBlur={cardBlur}
               borderWidth={featureCardBorderWidth}
+              shadowClassName={currentDropShadowClass}
             />
           </section>
 
           <section 
             id="navigation" 
             aria-labelledby="navigation-heading" 
-            className="py-10 md:py-12 shadow-lg rounded-xl scroll-mt-20"
+            className={`py-10 md:py-12 rounded-xl scroll-mt-20 ${currentDropShadowClass}`}
             style={sharedCardStyle}
           >
             <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-foreground drop-shadow-md">
@@ -168,6 +197,7 @@ export default function HomePage() {
                   currentBlur={cardBlur}
                   backgroundOpacity={featureCardOpacity}
                   borderWidth={featureCardBorderWidth}
+                  shadowClassName={currentDropShadowClass}
                 />
               ))}
             </div>
@@ -186,3 +216,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    

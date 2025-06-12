@@ -5,6 +5,7 @@ import React, { useState, useEffect, type FC, type ReactNode } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 
 interface FeatureCardProps {
   id: string;
@@ -17,6 +18,7 @@ interface FeatureCardProps {
   currentBlur?: number;
   backgroundOpacity?: number;
   borderWidth?: number;
+  shadowClassName?: string;
 }
 
 export const FeatureCard: FC<FeatureCardProps> = ({
@@ -30,6 +32,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   currentBlur,
   backgroundOpacity,
   borderWidth,
+  shadowClassName,
 }) => {
   const [sliderValueState, setSliderValueState] = useState<number[]>([defaultValue]);
   const [isMounted, setIsMounted] = useState(false);
@@ -48,16 +51,20 @@ export const FeatureCard: FC<FeatureCardProps> = ({
 
   const getUnit = () => {
     if (id === 'borderWidthControl') return 'px';
-    if (id === 'featureCardOpacityControl' || id === 'cardBlurControl') return '%';
-    return ''; // No unit for chromatic aberration intensity or others by default
+    if (id === 'featureCardOpacityControl' || id === 'cardBlurControl' || id === 'dropShadowControl') return '%';
+    // Removed specific unit for dropShadowControl as it's an intensity percentage.
+    // Chromatic aberration also has no unit.
+    return ''; 
   };
 
   const cardStyle: React.CSSProperties = {
     backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.6})`,
-    borderWidth: borderWidth !== undefined ? `${borderWidth}px` : '1px',
     borderStyle: 'solid',
     borderColor: 'hsla(0, 0%, 100%, 0.2)',
   };
+   if (borderWidth !== undefined) {
+    cardStyle.borderWidth = `${borderWidth}px`;
+  }
   if (currentBlur !== undefined) {
     cardStyle.backdropFilter = `blur(${currentBlur}px)`;
     cardStyle.WebkitBackdropFilter = `blur(${currentBlur}px)`;
@@ -65,7 +72,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   
   return (
     <Card 
-      className="shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col rounded-xl overflow-hidden"
+      className={cn("transition-shadow duration-300 flex flex-col rounded-xl overflow-hidden", shadowClassName)}
       style={cardStyle}
     >
       <CardHeader className="items-center text-center p-6 bg-transparent">
@@ -121,3 +128,5 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     </Card>
   );
 };
+
+    
