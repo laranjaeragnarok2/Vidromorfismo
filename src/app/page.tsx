@@ -2,7 +2,8 @@
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
-import { Github, Link as LinkIcon, Palette, Sun, Settings2, Home as HomeIcon, ListChecks, Info } from 'lucide-react';
+import { Github, Link as LinkIcon, Palette, Sun, Settings2, HomeIcon, ListChecks, Info } from 'lucide-react';
+
 
 export default function HomePage() {
   const projectDetails = {
