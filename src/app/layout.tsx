@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'Demonstração Simplificada',
-  description: 'Uma demonstração simplificada de UI com Next.js e ShadCN.',
+  title: 'Liquid Glass React',
+  description: 'Uma demonstração do efeito Liquid Glass e personalização de UI com Next.js e ShadCN.',
 };
 
 export default function RootLayout({
