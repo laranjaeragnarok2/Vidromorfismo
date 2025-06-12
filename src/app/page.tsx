@@ -7,25 +7,31 @@ import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
 import { Github, Instagram, Settings2, HomeIcon, ListChecks, Info, Layers, Shapes, Baseline, Droplet, Contrast } from 'lucide-react';
+import { SplineViewer } from '@/components/spline-viewer';
 
 export default function HomePage() {
-  const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(56); 
-  const [cardBlurSlider, setCardBlurSlider] = useState(50); 
+  const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(56);
+  const [cardBlurSlider, setCardBlurSlider] = useState(50);
   const [cardBorderRadiusSlider, setCardBorderRadiusSlider] = useState(37.5);
-  const [innerBottomShadowBlurSlider, setInnerBottomShadowBlurSlider] = useState(30); 
-  const [shadowBlurSlider, setShadowBlurSlider] = useState(38); 
-  const [shadowOpacitySlider, setShadowOpacitySlider] = useState(40); 
+  const [innerBottomShadowBlurSlider, setInnerBottomShadowBlurSlider] = useState(30);
+  const [shadowBlurSlider, setShadowBlurSlider] = useState(38);
+  const [shadowOpacitySlider, setShadowOpacitySlider] = useState(40);
 
   // Derived values for actual use
   const actualFeatureCardOpacity = 0.1 + (featureCardOpacitySlider / 100) * 0.9;
   const actualCardBlur = cardBlurSlider / 100 * 24;
-  const actualCardBorderRadius = (cardBorderRadiusSlider / 100) * 2; 
-  
-  const actualInnerBottomShadowBlur = (innerBottomShadowBlurSlider / 100) * 10; 
-  
-  const actualShadowBlur = shadowBlurSlider / 100 * 40; 
-  const actualShadowAlpha = shadowOpacitySlider / 100 * 0.3; // Reduced max opacity for softer shadow
-  const fixedOuterShadowOffsetY = 4; 
+  const actualCardBorderRadius = (cardBorderRadiusSlider / 100) * 2;
+
+  const actualInnerBottomShadowBlur = (innerBottomShadowBlurSlider / 100) * 10;
+
+  const actualShadowBlur = shadowBlurSlider / 100 * 40;
+  const actualShadowAlpha = shadowOpacitySlider / 100 * 0.3; // Max 30% opacity
+  const fixedOuterShadowOffsetY = 4;
+
+  // IMPORTANT: Replace this URL with your actual Spline scene URL
+  const splineSceneUrl = "https://prod.spline.design/YOUR_SCENE_URL_HERE";
+  // Example public Spline scene: https://prod.spline.design/abCDefGHi-jKLmnOp/scene.splinecode
+
 
   const handleSettingChange = (id: string, value: number) => {
     if (typeof window === "undefined") return;
@@ -36,7 +42,7 @@ export default function HomePage() {
       setFeatureCardOpacitySlider(value);
     } else if (id === 'cardBlurControl') {
       setCardBlurSlider(value);
-    } else if (id === 'innerBottomShadowBlurControl') { 
+    } else if (id === 'innerBottomShadowBlurControl') {
       setInnerBottomShadowBlurSlider(value);
     } else if (id === 'shadowBlurControl') {
       setShadowBlurSlider(value);
@@ -95,10 +101,10 @@ export default function HomePage() {
     },
     {
       id: "innerBottomShadowBlurControl",
-      title: "Profundidade Interna (Desfoque)", 
-      description: "Ajuste o desfoque da sombra interna inferior para profundidade.", 
-      icon: <Baseline />, 
-      sliderLabel: "Profund. Desfoque", 
+      title: "Profundidade Interna (Desfoque)",
+      description: "Ajuste o desfoque da sombra interna inferior para profundidade.",
+      icon: <Baseline />,
+      sliderLabel: "Profund. Desfoque",
       defaultValue: innerBottomShadowBlurSlider,
     },
     {
@@ -120,17 +126,18 @@ export default function HomePage() {
   ];
 
   const dynamicBoxShadow = `
-    inset 1px 1px 4px hsla(0, 0%, 100%, 0.85), 
-    inset -1px -1px 3px hsla(0, 0%, 100%, 0.6), 
-    inset 0px -3px ${actualInnerBottomShadowBlur.toFixed(1)}px 1px rgba(0, 0, 0, 0.2), 
+    inset 1px 1px 2px hsla(0, 0%, 100%, 0.85),
+    inset -1px -1px 2px hsla(0, 0%, 100%, 0.6),
+    inset 0px -3px ${actualInnerBottomShadowBlur.toFixed(1)}px 1px rgba(0, 0, 0, 0.2),
     0px ${fixedOuterShadowOffsetY}px ${actualShadowBlur.toFixed(1)}px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})
   `;
+
 
   const sharedCardStyleBase: Omit<React.CSSProperties, 'backdropFilter' | 'WebkitBackdropFilter' | 'boxShadow' | 'borderRadius'> = {
     backgroundColor: `hsla(0, 0%, 15%, ${actualFeatureCardOpacity})`,
     borderWidth: '1px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.1)', 
+    borderColor: 'hsla(0, 0%, 100%, 0.1)',
   };
 
   const sharedCardStyle: React.CSSProperties = {
@@ -142,86 +149,82 @@ export default function HomePage() {
   };
 
   return (
-    <div
-      className="min-h-screen text-foreground bg-center transition-opacity duration-500"
-      style={{
-        backgroundImage: "url('https://w.wallhaven.cc/full/5g/wallhaven-5g3dk3.jpg')",
-        backgroundSize: 'auto 100%',
-        backgroundRepeat: 'no-repeat',
-      }}
-      data-ai-hint="abstract colorful"
-    >
-      <div className="container mx-auto px-4 py-8 md:py-12">
-        <header className="mb-12 md:mb-16 text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-headline font-bold text-primary drop-shadow-lg">
-            Liquid Glass React
-          </h1>
-          <p className="text-slate-300 mt-3 text-lg md:text-xl max-w-2xl mx-auto bg-black/30 backdrop-blur-sm p-2 rounded-md drop-shadow-sm">
-            Explore os recursos e a personalização da interface do usuário de forma clara e acessível.
-          </p>
-        </header>
+    <>
+      <SplineViewer splineUrl={splineSceneUrl} />
+      <div
+        className="min-h-screen text-foreground bg-transparent transition-opacity duration-500"
+      >
+        <div className="container mx-auto px-4 py-8 md:py-12 relative z-10"> {/* Added relative z-10 to ensure content is above Spline */}
+          <header className="mb-12 md:mb-16 text-center">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-headline font-bold text-primary drop-shadow-lg">
+              Liquid Glass React
+            </h1>
+            <p className="text-slate-300 mt-3 text-lg md:text-xl max-w-2xl mx-auto bg-black/30 backdrop-blur-sm p-2 rounded-md drop-shadow-sm">
+              Explore os recursos e a personalização da interface do usuário de forma clara e acessível.
+            </p>
+          </header>
 
-        <main className="space-y-12 md:space-y-16">
-          <section
-            id="navigation"
-            aria-labelledby="navigation-heading"
-            className={`py-10 md:py-12 scroll-mt-20`}
-            style={sharedCardStyle}
-          >
-            <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-slate-100 drop-shadow-md">
-              Navegação Rápida
-            </h2>
-            <NavigationLinks links={navLinks} />
-          </section>
+          <main className="space-y-12 md:space-y-16">
+            <section
+              id="navigation"
+              aria-labelledby="navigation-heading"
+              className={`py-10 md:py-12 scroll-mt-20`}
+              style={sharedCardStyle}
+            >
+              <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-slate-100 drop-shadow-md">
+                Navegação Rápida
+              </h2>
+              <NavigationLinks links={navLinks} />
+            </section>
 
-          <section id="features" aria-labelledby="features-heading" className="scroll-mt-20">
-            <h2 id="features-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-slate-100 drop-shadow-md">
-              Funcionalidades Interativas
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 md:gap-8">
-              {featureCardsConfig.map((card) => (
-                <FeatureCard
-                  key={card.id}
-                  id={card.id}
-                  title={card.title}
-                  description={card.description}
-                  icon={card.icon}
-                  sliderLabel={card.sliderLabel}
-                  defaultValue={card.defaultValue}
-                  onSettingChange={handleSettingChange}
-                  currentBlur={actualCardBlur}
-                  backgroundOpacity={actualFeatureCardOpacity}
-                  borderRadiusValue={actualCardBorderRadius}
-                  boxShadowStyle={dynamicBoxShadow} 
-                />
-              ))}
-            </div>
-          </section>
-          
-          <section id="project-details" aria-labelledby="project-details-heading" className="scroll-mt-20">
-            <h2 id="project-details-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-slate-100 drop-shadow-md">
-              Detalhes do Projeto
-            </h2>
-            <ProjectDetailsCard
-              {...projectDetails}
-              backgroundOpacity={actualFeatureCardOpacity}
-              currentBlur={actualCardBlur}
-              borderRadiusValue={actualCardBorderRadius}
-              boxShadowStyle={dynamicBoxShadow} 
-            />
-          </section>
-        </main>
+            <section id="features" aria-labelledby="features-heading" className="scroll-mt-20">
+              <h2 id="features-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-slate-100 drop-shadow-md">
+                Funcionalidades Interativas
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 md:gap-8">
+                {featureCardsConfig.map((card) => (
+                  <FeatureCard
+                    key={card.id}
+                    id={card.id}
+                    title={card.title}
+                    description={card.description}
+                    icon={card.icon}
+                    sliderLabel={card.sliderLabel}
+                    defaultValue={card.defaultValue}
+                    onSettingChange={handleSettingChange}
+                    currentBlur={actualCardBlur}
+                    backgroundOpacity={actualFeatureCardOpacity}
+                    borderRadiusValue={actualCardBorderRadius}
+                    boxShadowStyle={dynamicBoxShadow}
+                  />
+                ))}
+              </div>
+            </section>
 
-        <footer className="mt-16 md:mt-24 pt-8 md:pt-12 border-t border-white/10 text-center">
-          <p className="text-sm text-slate-300 bg-black/30 backdrop-blur-sm p-1 rounded-md inline-block drop-shadow-sm">
-            &copy; {new Date().getFullYear()} Liquid Glass React. Todos os direitos reservados.
-          </p>
-          <p className="text-xs text-slate-400/80 mt-2 bg-black/30 backdrop-blur-sm p-1 rounded-md inline-block drop-shadow-sm">
-            Construído com Next.js, Tailwind CSS, e ShadCN UI.
-          </p>
-        </footer>
+            <section id="project-details" aria-labelledby="project-details-heading" className="scroll-mt-20">
+              <h2 id="project-details-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-slate-100 drop-shadow-md">
+                Detalhes do Projeto
+              </h2>
+              <ProjectDetailsCard
+                {...projectDetails}
+                backgroundOpacity={actualFeatureCardOpacity}
+                currentBlur={actualCardBlur}
+                borderRadiusValue={actualCardBorderRadius}
+                boxShadowStyle={dynamicBoxShadow}
+              />
+            </section>
+          </main>
+
+          <footer className="mt-16 md:mt-24 pt-8 md:pt-12 border-t border-white/10 text-center">
+            <p className="text-sm text-slate-300 bg-black/30 backdrop-blur-sm p-1 rounded-md inline-block drop-shadow-sm">
+              &copy; {new Date().getFullYear()} Liquid Glass React. Todos os direitos reservados.
+            </p>
+            <p className="text-xs text-slate-400/80 mt-2 bg-black/30 backdrop-blur-sm p-1 rounded-md inline-block drop-shadow-sm">
+              Construído com Next.js, Tailwind CSS, e ShadCN UI.
+            </p>
+          </footer>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
-    
