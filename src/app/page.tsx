@@ -4,7 +4,6 @@
 import React, { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
-// NavigationLinks e os ícones HomeIcon, ListChecks, Info não são mais usados aqui
 import { FeatureCard } from '@/components/feature-card';
 import { Github, Instagram, Settings2, Layers, Shapes, Baseline, Droplet, Contrast } from 'lucide-react';
 import { SplineViewer } from '@/components/spline-viewer';
@@ -58,13 +57,6 @@ export default function HomePage() {
       { name: "Instagram", url: "https://www.instagram.com/horyu.multimedia/", icon: <Instagram className="w-4 h-4" /> },
     ],
   };
-
-  // navLinks não é mais usado nesta página
-  // const navLinks = [
-  //   { name: "Início", href: "#", icon: <HomeIcon /> },
-  //   { name: "Recursos", href: "#features", icon: <ListChecks /> },
-  //   { name: "Sobre", href: "#project-details", icon: <Info /> },
-  // ];
 
   const featureCardsConfig: Array<{
     id: string;
