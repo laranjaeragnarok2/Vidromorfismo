@@ -6,7 +6,7 @@ import type { ReactNode } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
-import { Github, Instagram, Settings2, HomeIcon, ListChecks, Info, Layers, Frame, Filter, BoxSelect, Box, ArrowDownUp, Droplet, Contrast } from 'lucide-react';
+import { Github, Instagram, Settings2, HomeIcon, ListChecks, Info, Layers, Frame, Filter, Box, ArrowDownUp, Droplet, Contrast } from 'lucide-react';
 
 export default function HomePage() {
   const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(56); // 0-100, maps to 0.1-1.0
@@ -158,9 +158,9 @@ export default function HomePage() {
     <div
       className="min-h-screen text-foreground bg-cover bg-center transition-opacity duration-500"
       style={{
-        backgroundImage: "url('https://w.wallhaven.cc/full/5y/wallhaven-5yd6d5.png')",
+        backgroundImage: "url('https://w.wallhaven.cc/full/43/wallhaven-431jr3.jpg')",
       }}
-      data-ai-hint="colorful abstract"
+      data-ai-hint="abstract colorful"
     >
       <div className="container mx-auto px-4 py-8 md:py-12">
         <header className="mb-12 md:mb-16 text-center">
