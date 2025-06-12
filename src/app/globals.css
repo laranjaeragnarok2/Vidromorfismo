@@ -13,7 +13,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 210 10% 23%;
 
-    --primary: 36 100% 63%; /* #FFB347 - Laranja */
+    --primary-h: 36;
+    --primary-s: 100%;
+    --primary-l: 63%;
+    --primary: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
     --primary-foreground: 36 100% 10%; /* Dark brown for text on orange */
 
     --secondary: 210 16% 90%; /* Lighter grey, derived from background */
@@ -22,24 +25,27 @@
     --muted: 210 15% 88%;
     --muted-foreground: 210 10% 45%;
 
-    --accent: 125 25% 82%; /* #A7D1AB - "Azul suave" (actual: soft green) */
+    --accent-h: 125;
+    --accent-s: 25%;
+    --accent-l: 82%;
+    --accent: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
     --accent-foreground: 125 25% 25%; /* Dark green for text on accent */
 
-    --destructive: 0 72% 51%; 
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 210 10% 85%; 
-    --input: 210 10% 92%; 
+    --border: 210 10% 85%;
+    --input: 210 10% 92%;
     --ring: 36 100% 58%; /* Laranja for rings */
-    
+
     --radius: 0.5rem;
 
     /* Sidebar specific colors (can keep defaults or align with new theme) */
     --sidebar-background: 210 17% 98%; /* Slightly lighter than main background */
     --sidebar-foreground: 210 10% 23%;
-    --sidebar-primary: 36 100% 63%; /* Orange */
+    --sidebar-primary: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
     --sidebar-primary-foreground: 36 100% 10%;
-    --sidebar-accent: 125 25% 82%; /* Soft green */
+    --sidebar-accent: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
     --sidebar-accent-foreground: 125 25% 25%;
     --sidebar-border: 210 10% 88%;
     --sidebar-ring: 36 100% 58%;
@@ -62,7 +68,8 @@
     --popover: 210 10% 12%;
     --popover-foreground: 210 10% 85%;
 
-    --primary: 36 100% 63%; /* Laranja */
+    --primary-l: 63%; /* Ensure dark mode also has its base if needed */
+    --primary: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
     --primary-foreground: 36 100% 10%;
 
     --secondary: 210 10% 25%;
@@ -71,7 +78,8 @@
     --muted: 210 10% 25%;
     --muted-foreground: 210 10% 65%;
 
-    --accent: 125 25% 70%; /* Darker shade of soft green */
+    --accent-l: 70%; /* Ensure dark mode also has its base if needed */
+    --accent: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
     --accent-foreground: 125 25% 15%;
 
     --destructive: 0 62.8% 30.6%;
@@ -80,12 +88,12 @@
     --border: 210 10% 30%;
     --input: 210 10% 25%;
     --ring: 36 100% 63%; /* Laranja */
-    
+
     --sidebar-background: 210 10% 10%;
     --sidebar-foreground: 210 10% 85%;
-    --sidebar-primary: 36 100% 63%;
+    --sidebar-primary: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
     --sidebar-primary-foreground: 36 100% 10%;
-    --sidebar-accent: 125 25% 70%;
+    --sidebar-accent: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
     --sidebar-accent-foreground: 125 25% 15%;
     --sidebar-border: 210 10% 20%;
     --sidebar-ring: 36 100% 63%;

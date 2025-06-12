@@ -7,30 +7,54 @@ import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 
 interface FeatureCardProps {
+  id: string;
   title: string;
   description: string;
   icon: ReactNode;
   sliderLabel: string;
   defaultValue?: number;
+  onSettingChange: (id: string, value: number) => void;
+  currentBlur?: number; // Optional: only for cards that control blur directly
 }
 
-export const FeatureCard: FC<FeatureCardProps> = ({ title, description, icon, sliderLabel, defaultValue = 50 }) => {
+export const FeatureCard: FC<FeatureCardProps> = ({
+  id,
+  title,
+  description,
+  icon,
+  sliderLabel,
+  defaultValue = 50,
+  onSettingChange,
+  currentBlur,
+}) => {
   const [sliderValueState, setSliderValueState] = useState<number[]>([defaultValue]);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
+    // Update slider position if defaultValue changes from props (e.g. on initial load from HomePage state)
     setSliderValueState([defaultValue]);
   }, [defaultValue]);
 
   const handleSliderChange = (value: number[]) => {
     setSliderValueState(value);
+    onSettingChange(id, value[0]);
   };
-  
+
   const currentDisplayValue = isMounted ? sliderValueState[0] : defaultValue;
 
+  const cardStyle: React.CSSProperties = {};
+  if (currentBlur !== undefined) {
+    cardStyle.backdropFilter = `blur(${currentBlur}px)`;
+    // For webkit browsers if backdrop-filter is not supported for background images directly
+    cardStyle.WebkitBackdropFilter = `blur(${currentBlur}px)`;
+  }
+  
   return (
-    <Card className="shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col rounded-xl overflow-hidden bg-card/60 backdrop-blur-lg border border-white/20">
+    <Card 
+      className="shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col rounded-xl overflow-hidden bg-card/60 border border-white/20"
+      style={cardStyle}
+    >
       <CardHeader className="items-center text-center p-6 bg-transparent">
         <div className="mb-4 p-4 bg-primary/20 rounded-full w-fit border border-primary/30">
           {React.cloneElement(icon as React.ReactElement, { className: "w-8 h-8 text-primary"})}
@@ -41,14 +65,14 @@ export const FeatureCard: FC<FeatureCardProps> = ({ title, description, icon, sl
       <CardContent className="flex-grow flex flex-col justify-end p-6 bg-transparent">
         <div className="space-y-3 pt-4">
           <div className="flex justify-between items-center mb-2">
-            <Label htmlFor={`slider-${title.replace(/\s+/g, '-').toLowerCase()}`} className="text-sm text-foreground drop-shadow-sm">
+            <Label htmlFor={`slider-${id}`} className="text-sm text-foreground drop-shadow-sm">
               {sliderLabel}
             </Label>
             <span className="text-sm font-semibold text-primary w-12 text-right tabular-nums drop-shadow-sm">{currentDisplayValue}%</span>
           </div>
           {isMounted ? (
             <Slider
-              id={`slider-${title.replace(/\s+/g, '-').toLowerCase()}`}
+              id={`slider-${id}`}
               value={sliderValueState}
               defaultValue={[defaultValue]}
               max={100}
@@ -63,9 +87,12 @@ export const FeatureCard: FC<FeatureCardProps> = ({ title, description, icon, sl
                     <span className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary/50">
                         <span className="absolute h-full bg-primary" style={{width: `${defaultValue}%`}}></span>
                     </span>
-                    <span 
-                      className="absolute block h-5 w-5 rounded-full border-2 border-primary bg-background shadow-sm" 
+                    <span
+                      className="absolute block h-5 w-5 rounded-full border-2 border-primary bg-background shadow-sm"
                       style={{left: `calc(${defaultValue}% - 10px)`}}
+                      role="slider"
+                      aria-valuenow={defaultValue}
+                      aria-label={sliderLabel}
                     ></span>
                 </div>
             </div>
