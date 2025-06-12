@@ -17,7 +17,7 @@ interface FeatureCardProps {
   onSettingChange: (id: string, value: number) => void;
   currentBlur?: number; // actual px value
   backgroundOpacity?: number; // actual opacity value 0-1
-  borderWidth?: number; // actual px value
+  borderRadiusValue?: number; // actual rem value
   shadowOffsetY?: number; // actual px value
   shadowBlur?: number; // actual px value
   shadowOpacity?: number; // actual alpha value 0-1
@@ -33,7 +33,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   onSettingChange,
   currentBlur,
   backgroundOpacity,
-  borderWidth,
+  borderRadiusValue,
   shadowOffsetY,
   shadowBlur,
   shadowOpacity,
@@ -56,7 +56,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   
   const getDisplayValueAndUnit = () => {
     const val = isMounted ? sliderValueState[0] : defaultValue;
-    if (id === 'borderWidthControl') return { display: (val / 100 * 8).toFixed(1), unit: 'px' };
+    if (id === 'cardBorderRadiusControl') return { display: (val / 100 * 2).toFixed(2), unit: 'rem' };
     if (id === 'featureCardOpacityControl') {
         const actualOpacity = 0.1 + (val / 100) * 0.9;
         return { display: (actualOpacity * 100).toFixed(0), unit: '%' };
@@ -76,10 +76,10 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   const cardStyle: React.CSSProperties = {
     backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.6})`,
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.2)', // Keep border color as it is for visual separation
+    borderColor: 'hsla(0, 0%, 100%, 0.2)', // Default border width (1px) will be applied by Card component's "border" class
   };
-   if (borderWidth !== undefined) {
-    cardStyle.borderWidth = `${borderWidth.toFixed(1)}px`;
+   if (borderRadiusValue !== undefined) {
+    cardStyle.borderRadius = `${borderRadiusValue.toFixed(2)}rem`;
   }
   if (currentBlur !== undefined) {
     cardStyle.backdropFilter = `blur(${currentBlur.toFixed(1)}px)`;
@@ -91,7 +91,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   
   return (
     <Card
-      className={cn("transition-shadow duration-300 flex flex-col rounded-xl overflow-hidden")}
+      className={cn("transition-shadow duration-300 flex flex-col overflow-hidden")} // removed rounded-xl, dynamic now
       style={cardStyle}
     >
       <CardHeader className="items-center text-center p-4 bg-transparent">

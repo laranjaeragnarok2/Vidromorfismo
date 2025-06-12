@@ -6,12 +6,12 @@ import type { ReactNode } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
-import { Github, Instagram, Settings2, HomeIcon, ListChecks, Info, Layers, Frame, Filter, Box, ArrowDownUp, Droplet, Contrast } from 'lucide-react';
+import { Github, Instagram, Settings2, HomeIcon, ListChecks, Info, Layers, Shapes, Filter, Box, ArrowDownUp, Droplet, Contrast } from 'lucide-react';
 
 export default function HomePage() {
   const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(56); // 0-100, maps to 0.1-1.0
   const [cardBlurSlider, setCardBlurSlider] = useState(50); // 0-100, maps to 0-24px
-  const [featureCardBorderWidthSlider, setFeatureCardBorderWidthSlider] = useState(13); // 0-100, maps to 0-8px
+  const [cardBorderRadiusSlider, setCardBorderRadiusSlider] = useState(37.5); // 0-100, maps to 0-2rem (default 0.75rem)
   const [chromaticAberrationLevel, setChromaticAberrationLevel] = useState(0); // 0-100
   const [bevelIntensity, setBevelIntensity] = useState(0); // 0-100
   const [shadowOffsetYSlider, setShadowOffsetYSlider] = useState(40); // 0-100, maps to 0-25px
@@ -21,7 +21,7 @@ export default function HomePage() {
   // Derived values for actual use
   const actualFeatureCardOpacity = 0.1 + (featureCardOpacitySlider / 100) * 0.9;
   const actualCardBlur = cardBlurSlider / 100 * 24;
-  const actualFeatureCardBorderWidth = featureCardBorderWidthSlider / 100 * 8;
+  const actualCardBorderRadius = (cardBorderRadiusSlider / 100) * 2; // maps to 0-2rem
   const actualShadowOffsetY = shadowOffsetYSlider / 100 * 25;
   const actualShadowBlur = shadowBlurSlider / 100 * 40;
   const actualShadowAlpha = shadowOpacitySlider / 100 * 0.5;
@@ -29,8 +29,8 @@ export default function HomePage() {
   const handleSettingChange = (id: string, value: number) => {
     if (typeof window === "undefined") return;
 
-    if (id === 'borderWidthControl') {
-      setFeatureCardBorderWidthSlider(value);
+    if (id === 'cardBorderRadiusControl') {
+      setCardBorderRadiusSlider(value);
     } else if (id === 'featureCardOpacityControl') {
       setFeatureCardOpacitySlider(value);
     } else if (id === 'cardBlurControl') {
@@ -73,12 +73,12 @@ export default function HomePage() {
     defaultValue: number;
   }> = [
     {
-      id: "borderWidthControl",
-      title: "Tamanho da Borda dos Cards",
-      description: "Ajuste a espessura da borda dos cards interativos.",
-      icon: <Frame />,
-      sliderLabel: "Espessura da Borda",
-      defaultValue: featureCardBorderWidthSlider,
+      id: "cardBorderRadiusControl",
+      title: "Raio da Borda dos Cards",
+      description: "Ajuste o quão arredondadas são as bordas dos cards.",
+      icon: <Shapes />,
+      sliderLabel: "Raio da Borda",
+      defaultValue: cardBorderRadiusSlider,
     },
     {
       id: "featureCardOpacityControl",
@@ -140,17 +140,17 @@ export default function HomePage() {
 
   const dynamicBoxShadow = `0px ${actualShadowOffsetY.toFixed(1)}px ${actualShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})`;
 
-  const sharedCardStyleBase: Omit<React.CSSProperties, 'backdropFilter' | 'WebkitBackdropFilter' | 'borderWidth' | 'boxShadow'> = {
+  const sharedCardStyleBase: Omit<React.CSSProperties, 'backdropFilter' | 'WebkitBackdropFilter' | 'boxShadow' | 'borderRadius'> = {
     backgroundColor: `hsla(0, 0%, 100%, ${actualFeatureCardOpacity})`,
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.2)',
+    borderColor: 'hsla(0, 0%, 100%, 0.2)', // Default border width (1px) will be applied by Card component's "border" class
   };
 
   const sharedCardStyle: React.CSSProperties = {
     ...sharedCardStyleBase,
     backdropFilter: `blur(${actualCardBlur}px)`,
     WebkitBackdropFilter: `blur(${actualCardBlur}px)`,
-    borderWidth: `${actualFeatureCardBorderWidth}px`,
+    borderRadius: `${actualCardBorderRadius.toFixed(2)}rem`,
     boxShadow: dynamicBoxShadow,
   };
 
@@ -178,7 +178,7 @@ export default function HomePage() {
           <section
             id="navigation"
             aria-labelledby="navigation-heading"
-            className={`py-10 md:py-12 rounded-xl scroll-mt-20`}
+            className={`py-10 md:py-12 scroll-mt-20`} // removed rounded-xl, dynamic now
             style={sharedCardStyle}
           >
             <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-foreground drop-shadow-md">
@@ -204,7 +204,7 @@ export default function HomePage() {
                   onSettingChange={handleSettingChange}
                   currentBlur={actualCardBlur}
                   backgroundOpacity={actualFeatureCardOpacity}
-                  borderWidth={actualFeatureCardBorderWidth}
+                  borderRadiusValue={actualCardBorderRadius}
                   shadowOffsetY={actualShadowOffsetY}
                   shadowBlur={actualShadowBlur}
                   shadowOpacity={actualShadowAlpha}
@@ -221,7 +221,7 @@ export default function HomePage() {
               {...projectDetails}
               backgroundOpacity={actualFeatureCardOpacity}
               currentBlur={actualCardBlur}
-              borderWidth={actualFeatureCardBorderWidth}
+              borderRadiusValue={actualCardBorderRadius}
               shadowOffsetY={actualShadowOffsetY}
               shadowBlur={actualShadowBlur}
               shadowOpacity={actualShadowAlpha}
@@ -241,4 +241,3 @@ export default function HomePage() {
     </div>
   );
 }
-
