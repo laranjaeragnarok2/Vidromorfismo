@@ -1,5 +1,4 @@
 
-import LiquidGlass from 'liquid-glass-react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
@@ -53,15 +52,15 @@ export default function HomePage() {
   return (
     <div 
       className="min-h-screen text-foreground bg-cover bg-center" 
-      style={{ backgroundImage: "url('https://placehold.co/1920x1080.png')" }}
-      data-ai-hint="abstract nature"
+      style={{ backgroundImage: "url('https://w.wallhaven.cc/full/5y/wallhaven-5yd6d5.png')" }}
+      data-ai-hint="colorful abstract"
     >
       <div className="container mx-auto px-4 py-8 md:py-12">
         <header className="mb-12 md:mb-16 text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-headline font-bold text-primary drop-shadow-lg">
             Demonstração Simplificada
           </h1>
-          <p className="text-muted-foreground mt-3 text-lg md:text-xl max-w-2xl mx-auto bg-background/50 backdrop-blur-sm p-2 rounded-md">
+          <p className="text-muted-foreground mt-3 text-lg md:text-xl max-w-2xl mx-auto bg-background/50 backdrop-blur-sm p-2 rounded-md drop-shadow-sm">
             Explore os recursos e a personalização da interface do usuário de forma clara e acessível.
           </p>
         </header>
@@ -101,10 +100,10 @@ export default function HomePage() {
         </main>
 
         <footer className="mt-16 md:mt-24 pt-8 md:pt-12 border-t border-white/20 text-center">
-          <p className="text-sm text-muted-foreground bg-background/50 backdrop-blur-sm p-1 rounded-md inline-block">
+          <p className="text-sm text-muted-foreground bg-background/50 backdrop-blur-sm p-1 rounded-md inline-block drop-shadow-sm">
             &copy; {new Date().getFullYear()} Demonstração Simplificada. Todos os direitos reservados.
           </p>
-          <p className="text-xs text-muted-foreground/80 mt-2 bg-background/50 backdrop-blur-sm p-1 rounded-md inline-block">
+          <p className="text-xs text-muted-foreground/80 mt-2 bg-background/50 backdrop-blur-sm p-1 rounded-md inline-block drop-shadow-sm">
             Construído com Next.js, Tailwind CSS, e ShadCN UI.
           </p>
         </footer>
