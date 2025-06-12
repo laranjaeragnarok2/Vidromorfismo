@@ -61,7 +61,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     if (id === 'innerBottomShadowBlurControl') return { display: (val / 100 * 10).toFixed(1), unit: 'px' }; 
     if (id === 'shadowBlurControl') return { display: (val / 100 * 40).toFixed(1), unit: 'px' };
     if (id === 'shadowOpacityControl') {
-        return { display: (val / 100 * 50).toFixed(0), unit: '%' };
+        return { display: (val / 100 * 30).toFixed(0), unit: '%' }; // Updated to reflect 0-30% range
     }
     return { display: val.toFixed(0), unit: ''};
   };

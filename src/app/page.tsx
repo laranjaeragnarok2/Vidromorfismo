@@ -9,23 +9,23 @@ import { FeatureCard } from '@/components/feature-card';
 import { Github, Instagram, Settings2, HomeIcon, ListChecks, Info, Layers, Shapes, Baseline, Droplet, Contrast } from 'lucide-react';
 
 export default function HomePage() {
-  const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(56); // Maps to 60% opacity
-  const [cardBlurSlider, setCardBlurSlider] = useState(50); // Maps to 12px blur
-  const [cardBorderRadiusSlider, setCardBorderRadiusSlider] = useState(37.5); // Maps to 0.75rem radius
-  const [innerBottomShadowBlurSlider, setInnerBottomShadowBlurSlider] = useState(30); // Maps to 3px inner shadow blur (0-10px range)
-  const [shadowBlurSlider, setShadowBlurSlider] = useState(38); // Maps to 15.2px outer shadow blur
-  const [shadowOpacitySlider, setShadowOpacitySlider] = useState(40); // Maps to 0.2 (20%) outer shadow opacity
+  const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(56); 
+  const [cardBlurSlider, setCardBlurSlider] = useState(50); 
+  const [cardBorderRadiusSlider, setCardBorderRadiusSlider] = useState(37.5);
+  const [innerBottomShadowBlurSlider, setInnerBottomShadowBlurSlider] = useState(30); 
+  const [shadowBlurSlider, setShadowBlurSlider] = useState(38); 
+  const [shadowOpacitySlider, setShadowOpacitySlider] = useState(40); 
 
   // Derived values for actual use
   const actualFeatureCardOpacity = 0.1 + (featureCardOpacitySlider / 100) * 0.9;
   const actualCardBlur = cardBlurSlider / 100 * 24;
-  const actualCardBorderRadius = (cardBorderRadiusSlider / 100) * 2; // maps to 0-2rem
+  const actualCardBorderRadius = (cardBorderRadiusSlider / 100) * 2; 
   
-  const actualInnerBottomShadowBlur = (innerBottomShadowBlurSlider / 100) * 10; // 0-10px range for inner shadow blur
+  const actualInnerBottomShadowBlur = (innerBottomShadowBlurSlider / 100) * 10; 
   
-  const actualShadowBlur = shadowBlurSlider / 100 * 40; // Outer shadow blur
-  const actualShadowAlpha = shadowOpacitySlider / 100 * 0.5; // Outer shadow opacity
-  const fixedOuterShadowOffsetY = 4; // Fixed Y-offset for outer shadow
+  const actualShadowBlur = shadowBlurSlider / 100 * 40; 
+  const actualShadowAlpha = shadowOpacitySlider / 100 * 0.3; // Reduced max opacity for softer shadow
+  const fixedOuterShadowOffsetY = 4; 
 
   const handleSettingChange = (id: string, value: number) => {
     if (typeof window === "undefined") return;
@@ -120,10 +120,9 @@ export default function HomePage() {
   ];
 
   const dynamicBoxShadow = `
-    inset 1px 1px 3px hsla(0, 0%, 100%, 0.75),
-    inset 0px 2px 5px hsla(0, 0%, 100%, 0.5),
-    inset -1px -1px 3px hsla(0, 0%, 100%, 0.4),
-    inset 0px -2px ${actualInnerBottomShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, 0.15),
+    inset 1px 1px 4px hsla(0, 0%, 100%, 0.85), 
+    inset -1px -1px 3px hsla(0, 0%, 100%, 0.6), 
+    inset 0px -3px ${actualInnerBottomShadowBlur.toFixed(1)}px 1px rgba(0, 0, 0, 0.2), 
     0px ${fixedOuterShadowOffsetY}px ${actualShadowBlur.toFixed(1)}px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})
   `;
 
