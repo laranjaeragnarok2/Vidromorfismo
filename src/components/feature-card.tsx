@@ -50,7 +50,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     if (isMountedForSlider && sliderValueState[0] !== defaultValue) {
         setSliderValueState([defaultValue]);
     }
-  }, [defaultValue, isMountedForSlider, sliderValueState]); 
+  }, [defaultValue, isMountedForSlider, sliderValueState]);
 
   const handleSliderChange = (value: number[]) => {
     setSliderValueState(value);
@@ -66,7 +66,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
         return { display: (actualOpacity * 100).toFixed(0), unit: '%' };
     }
     if (id === 'cardBlurControl') return { display: (val / 100 * 24).toFixed(1), unit: 'px' };
-    if (id === 'innerBottomShadowBlurControl') return { display: (val / 100 * 10).toFixed(1), unit: 'px' };
+    if (id === 'innerBottomShadowBlurControl') return { display: (val / 100 * 25).toFixed(1), unit: 'px' }; // Updated multiplier
     if (id === 'shadowBlurControl') return { display: (val / 100 * 40).toFixed(1), unit: 'px' };
     if (id === 'shadowOpacityControl') {
         return { display: (val / 100 * 30).toFixed(0), unit: '%' };
@@ -80,7 +80,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     backgroundColor: `hsla(0, 0%, 15%, ${backgroundOpacity ?? 0.6})`,
     borderWidth: '1px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.3)', // Updated border opacity
+    borderColor: 'hsla(0, 0%, 100%, 0.3)',
   };
    if (borderRadiusValue !== undefined) {
     cardStyle.borderRadius = `${borderRadiusValue.toFixed(2)}rem`;

@@ -22,10 +22,10 @@ export default function HomePage() {
   const actualCardBlur = cardBlurSlider / 100 * 24;
   const actualCardBorderRadius = (cardBorderRadiusSlider / 100) * 2;
 
-  const actualInnerBottomShadowBlur = (innerBottomShadowBlurSlider / 100) * 10;
+  const actualInnerBottomShadowBlur = (innerBottomShadowBlurSlider / 100) * 25; // Increased max blur
 
   const actualShadowBlur = shadowBlurSlider / 100 * 40;
-  const actualShadowAlpha = shadowOpacitySlider / 100 * 0.3; 
+  const actualShadowAlpha = shadowOpacitySlider / 100 * 0.3;
   const fixedOuterShadowOffsetY = 4;
 
   const splineSceneUrl = "https://prod.spline.design/jMrByPm07zeU6Tku/scene.splinecode";
@@ -127,7 +127,7 @@ export default function HomePage() {
     inset 1px 1px 2px 0px hsla(0, 0%, 100%, 0.85), 
     inset 0px 2px 3px 0px hsla(0, 0%, 100%, 0.25),
     inset 0px 0px 0px 1px hsla(0, 0%, 100%, 0.3),
-    inset -4px -4px ${actualInnerBottomShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, 0.3),
+    inset -4px -4px ${actualInnerBottomShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, 0.15), 
     0px ${fixedOuterShadowOffsetY}px ${actualShadowBlur.toFixed(1)}px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})
   `;
 
@@ -174,7 +174,7 @@ export default function HomePage() {
               <div className="absolute inset-0 z-0 pointer-events-none">
                 <SplineViewer splineUrl={splineSceneUrl} />
               </div>
-              <div className="relative z-10"> 
+              <div className="relative z-10">
                 <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-slate-100 drop-shadow-md">
                   Navegação Rápida
                 </h2>
