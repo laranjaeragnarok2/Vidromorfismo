@@ -4,9 +4,9 @@
 import React, { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
-import { NavigationLinks } from '@/components/navigation-links';
+// NavigationLinks e os ícones HomeIcon, ListChecks, Info não são mais usados aqui
 import { FeatureCard } from '@/components/feature-card';
-import { Github, Instagram, Settings2, HomeIcon, ListChecks, Info, Layers, Shapes, Baseline, Droplet, Contrast } from 'lucide-react';
+import { Github, Instagram, Settings2, Layers, Shapes, Baseline, Droplet, Contrast } from 'lucide-react';
 import { SplineViewer } from '@/components/spline-viewer';
 
 export default function HomePage() {
@@ -59,11 +59,12 @@ export default function HomePage() {
     ],
   };
 
-  const navLinks = [
-    { name: "Início", href: "#", icon: <HomeIcon /> },
-    { name: "Recursos", href: "#features", icon: <ListChecks /> },
-    { name: "Sobre", href: "#project-details", icon: <Info /> },
-  ];
+  // navLinks não é mais usado nesta página
+  // const navLinks = [
+  //   { name: "Início", href: "#", icon: <HomeIcon /> },
+  //   { name: "Recursos", href: "#features", icon: <ListChecks /> },
+  //   { name: "Sobre", href: "#project-details", icon: <Info /> },
+  // ];
 
   const featureCardsConfig: Array<{
     id: string;
@@ -164,20 +165,15 @@ export default function HomePage() {
           </header>
 
           <main className="space-y-12 md:space-y-16">
+            <h2 className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-slate-100 drop-shadow-md">
+              Este é nosso objetivo
+            </h2>
             <section
-              id="navigation"
-              aria-labelledby="navigation-heading"
-              className="py-10 md:py-12 scroll-mt-20 relative rounded-lg overflow-hidden shadow-xl min-h-[300px] md:min-h-[400px]"
+              id="objective-spline"
+              aria-label="Visualização do Objetivo com Spline"
+              className="scroll-mt-20 relative rounded-lg overflow-hidden shadow-xl h-[400px] md:h-[500px] w-full max-w-4xl mx-auto"
             >
-              <div className="absolute inset-0 z-0 pointer-events-none">
-                <SplineViewer splineUrl={splineSceneUrl} />
-              </div>
-              <div className="relative z-10">
-                <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-slate-100 drop-shadow-md">
-                  Navegação Rápida
-                </h2>
-                <NavigationLinks links={navLinks} />
-              </div>
+              <SplineViewer splineUrl={splineSceneUrl} className="w-full h-full" />
             </section>
 
             <section id="features" aria-labelledby="features-heading" className="scroll-mt-20">
@@ -231,5 +227,4 @@ export default function HomePage() {
     </>
   );
 }
-
     
