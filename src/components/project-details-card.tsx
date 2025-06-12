@@ -37,7 +37,7 @@ export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({
     backgroundColor: `hsla(0, 0%, 15%, ${backgroundOpacity ?? 0.7})`, // Dark translucent background
     borderWidth: '1px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.1)', // Subtle light border
+    borderColor: 'hsla(0, 0%, 100%, 0.3)', // Updated border opacity
   };
 
   if (currentBlur !== undefined) {

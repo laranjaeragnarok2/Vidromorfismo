@@ -80,7 +80,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     backgroundColor: `hsla(0, 0%, 15%, ${backgroundOpacity ?? 0.6})`,
     borderWidth: '1px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.1)',
+    borderColor: 'hsla(0, 0%, 100%, 0.3)', // Updated border opacity
   };
    if (borderRadiusValue !== undefined) {
     cardStyle.borderRadius = `${borderRadiusValue.toFixed(2)}rem`;
