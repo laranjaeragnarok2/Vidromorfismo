@@ -6,7 +6,7 @@ import type { ReactNode } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
-import { Github, Link as LinkIcon, Sun, Settings2, HomeIcon, ListChecks, Info, Layers, Frame, Filter, BoxSelect, Box, ArrowDownUp, Droplet, Contrast } from 'lucide-react';
+import { Github, Instagram, Settings2, HomeIcon, ListChecks, Info, Layers, Frame, Filter, BoxSelect, Box, ArrowDownUp, Droplet, Contrast } from 'lucide-react';
 
 export default function HomePage() {
   const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(56); // 0-100, maps to 0.1-1.0
@@ -49,12 +49,12 @@ export default function HomePage() {
   };
 
   const projectDetails = {
-    title: "Projeto Exemplo XYZ",
+    title: "Liquid Glass React",
     description: "Uma breve demonstração das capacidades da interface do usuário e personalização, construída com Next.js e ShadCN UI.",
-    author: "Equipe de Desenvolvimento Next",
+    author: "@horyu.multimedia",
     links: [
-      { name: "GitHub", url: "https://github.com", icon: <Github className="w-4 h-4" /> },
-      { name: "Demo ao Vivo", url: "#", icon: <LinkIcon className="w-4 h-4" /> },
+      { name: "GitHub", url: "https://github.com/laranjaeragnarok2", icon: <Github className="w-4 h-4" /> },
+      { name: "Instagram", url: "https://www.instagram.com/horyu.multimedia/", icon: <Instagram className="w-4 h-4" /> },
     ],
   };
 
@@ -173,21 +173,6 @@ export default function HomePage() {
         </header>
 
         <main className="space-y-12 md:space-y-16">
-          <section id="project-details" aria-labelledby="project-details-heading" className="scroll-mt-20">
-            <h2 id="project-details-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-foreground drop-shadow-md">
-              Detalhes do Projeto
-            </h2>
-            <ProjectDetailsCard
-              {...projectDetails}
-              backgroundOpacity={actualFeatureCardOpacity}
-              currentBlur={actualCardBlur}
-              borderWidth={actualFeatureCardBorderWidth}
-              shadowOffsetY={actualShadowOffsetY}
-              shadowBlur={actualShadowBlur}
-              shadowOpacity={actualShadowAlpha}
-            />
-          </section>
-
           <section
             id="navigation"
             aria-labelledby="navigation-heading"
@@ -224,6 +209,21 @@ export default function HomePage() {
                 />
               ))}
             </div>
+          </section>
+          
+          <section id="project-details" aria-labelledby="project-details-heading" className="scroll-mt-20">
+            <h2 id="project-details-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-foreground drop-shadow-md">
+              Detalhes do Projeto
+            </h2>
+            <ProjectDetailsCard
+              {...projectDetails}
+              backgroundOpacity={actualFeatureCardOpacity}
+              currentBlur={actualCardBlur}
+              borderWidth={actualFeatureCardBorderWidth}
+              shadowOffsetY={actualShadowOffsetY}
+              shadowBlur={actualShadowBlur}
+              shadowOpacity={actualShadowAlpha}
+            />
           </section>
         </main>
 
