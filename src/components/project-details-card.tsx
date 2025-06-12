@@ -20,7 +20,9 @@ interface ProjectDetailsCardProps {
   backgroundOpacity?: number;
   currentBlur?: number;
   borderWidth?: number;
-  shadowClassName?: string;
+  shadowOffsetY?: number;
+  shadowBlur?: number;
+  shadowOpacity?: number;
 }
 
 export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({
@@ -31,7 +33,9 @@ export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({
   backgroundOpacity,
   currentBlur,
   borderWidth,
-  shadowClassName,
+  shadowOffsetY,
+  shadowBlur,
+  shadowOpacity,
 }) => {
   const cardStyle: React.CSSProperties = {
     backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.7})`,
@@ -40,16 +44,20 @@ export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({
   };
 
   if (currentBlur !== undefined) {
-    cardStyle.backdropFilter = `blur(${currentBlur}px)`;
-    cardStyle.WebkitBackdropFilter = `blur(${currentBlur}px)`;
+    cardStyle.backdropFilter = `blur(${currentBlur.toFixed(1)}px)`;
+    cardStyle.WebkitBackdropFilter = `blur(${currentBlur.toFixed(1)}px)`;
   }
   if (borderWidth !== undefined) {
-    cardStyle.borderWidth = `${borderWidth}px`;
+    cardStyle.borderWidth = `${borderWidth.toFixed(1)}px`;
   }
+  if (shadowOffsetY !== undefined && shadowBlur !== undefined && shadowOpacity !== undefined) {
+    cardStyle.boxShadow = `0px ${shadowOffsetY.toFixed(1)}px ${shadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${shadowOpacity.toFixed(2)})`;
+  }
+
 
   return (
     <Card 
-      className={cn("w-full max-w-2xl mx-auto overflow-hidden rounded-xl", shadowClassName)}
+      className={cn("w-full max-w-2xl mx-auto overflow-hidden rounded-xl")}
       style={cardStyle}
     >
       <CardHeader className="text-center bg-transparent p-6">
@@ -90,5 +98,3 @@ export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({
     </Card>
   );
 };
-
-    

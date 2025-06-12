@@ -13,12 +13,14 @@ interface FeatureCardProps {
   description: string;
   icon: ReactNode;
   sliderLabel: string;
-  defaultValue?: number;
+  defaultValue?: number; // Slider value 0-100
   onSettingChange: (id: string, value: number) => void;
-  currentBlur?: number;
-  backgroundOpacity?: number;
-  borderWidth?: number;
-  shadowClassName?: string;
+  currentBlur?: number; // actual px value
+  backgroundOpacity?: number; // actual opacity value 0-1
+  borderWidth?: number; // actual px value
+  shadowOffsetY?: number; // actual px value
+  shadowBlur?: number; // actual px value
+  shadowOpacity?: number; // actual alpha value 0-1
 }
 
 export const FeatureCard: FC<FeatureCardProps> = ({
@@ -32,29 +34,52 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   currentBlur,
   backgroundOpacity,
   borderWidth,
-  shadowClassName,
+  shadowOffsetY,
+  shadowBlur,
+  shadowOpacity,
 }) => {
   const [sliderValueState, setSliderValueState] = useState<number[]>([defaultValue]);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
-    setSliderValueState([defaultValue]);
-  }, [defaultValue]);
+    // Ensure sliderValueState is updated if defaultValue changes after mount (e.g. from parent state)
+    // This might not be strictly necessary if defaultValue is stable per card instance.
+    if (sliderValueState[0] !== defaultValue) {
+        setSliderValueState([defaultValue]);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValue]); // Only re-run if defaultValue prop itself changes
 
   const handleSliderChange = (value: number[]) => {
     setSliderValueState(value);
     onSettingChange(id, value[0]);
   };
+  
+  const getDisplayValueAndUnit = () => {
+    const val = isMounted ? sliderValueState[0] : defaultValue;
+    // Calculations based on how HomePage maps slider 0-100 to actual values
+    if (id === 'borderWidthControl') return { display: (val / 100 * 8).toFixed(1), unit: 'px' };
+    if (id === 'featureCardOpacityControl') {
+        // Opacity is 0.1 to 1.0. Display as percentage 10% to 100%.
+        const actualOpacity = 0.1 + (val / 100) * 0.9;
+        return { display: (actualOpacity * 100).toFixed(0), unit: '%' };
+    }
+    if (id === 'cardBlurControl') return { display: (val / 100 * 24).toFixed(1), unit: 'px' };
+    
+    if (id === 'shadowOffsetYControl') return { display: (val / 100 * 25).toFixed(1), unit: 'px' };
+    if (id === 'shadowBlurControl') return { display: (val / 100 * 40).toFixed(1), unit: 'px' };
+    if (id === 'shadowOpacityControl') {
+        // Opacity maps 0-100 slider to 0-0.5 alpha. Display as 0-50%.
+        return { display: (val / 100 * 50).toFixed(0), unit: '%' };
+    }
 
-  const currentDisplayValue = isMounted ? sliderValueState[0] : defaultValue;
-
-  const getUnit = () => {
-    if (id === 'borderWidthControl') return 'px';
-    if (id === 'featureCardOpacityControl' || id === 'cardBlurControl' || id === 'dropShadowControl') return '%';
-    // Chromatic aberration and Bevel have no unit for now.
-    return ''; 
+    if (id === 'chromaticAberrationControl' || id === 'bevelControl') return { display: val.toFixed(0), unit: ''}; // Display raw 0-100
+    return { display: val.toFixed(0), unit: ''}; // Default for unimplemented
   };
+
+  const { display: currentFormattedValue, unit: currentUnit } = getDisplayValueAndUnit();
+
 
   const cardStyle: React.CSSProperties = {
     backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.6})`,
@@ -62,16 +87,19 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     borderColor: 'hsla(0, 0%, 100%, 0.2)',
   };
    if (borderWidth !== undefined) {
-    cardStyle.borderWidth = `${borderWidth}px`;
+    cardStyle.borderWidth = `${borderWidth.toFixed(1)}px`;
   }
   if (currentBlur !== undefined) {
-    cardStyle.backdropFilter = `blur(${currentBlur}px)`;
-    cardStyle.WebkitBackdropFilter = `blur(${currentBlur}px)`;
+    cardStyle.backdropFilter = `blur(${currentBlur.toFixed(1)}px)`;
+    cardStyle.WebkitBackdropFilter = `blur(${currentBlur.toFixed(1)}px)`;
+  }
+  if (shadowOffsetY !== undefined && shadowBlur !== undefined && shadowOpacity !== undefined) {
+    cardStyle.boxShadow = `0px ${shadowOffsetY.toFixed(1)}px ${shadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${shadowOpacity.toFixed(2)})`;
   }
   
   return (
     <Card 
-      className={cn("transition-shadow duration-300 flex flex-col rounded-xl overflow-hidden", shadowClassName)}
+      className={cn("transition-shadow duration-300 flex flex-col rounded-xl overflow-hidden")}
       style={cardStyle}
     >
       <CardHeader className="items-center text-center p-6 bg-transparent">
@@ -87,9 +115,9 @@ export const FeatureCard: FC<FeatureCardProps> = ({
             <Label htmlFor={`slider-${id}`} className="text-sm text-foreground drop-shadow-sm">
               {sliderLabel}
             </Label>
-            <span className="text-sm font-semibold text-primary w-12 text-right tabular-nums drop-shadow-sm">
-              {currentDisplayValue}
-              {getUnit()}
+            <span className="text-sm font-semibold text-primary w-16 text-right tabular-nums drop-shadow-sm">
+              {currentFormattedValue}
+              {currentUnit}
             </span>
           </div>
           {isMounted ? (
@@ -104,14 +132,14 @@ export const FeatureCard: FC<FeatureCardProps> = ({
               aria-label={sliderLabel}
             />
           ) : (
-             <div className="h-5 flex items-center">
+             <div className="h-5 flex items-center"> {/* Placeholder structure matching Slider's height */}
                 <div className="relative flex h-2 w-full grow touch-none select-none items-center">
                     <span className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary/50">
                         <span className="absolute h-full bg-primary" style={{width: `${defaultValue}%`}}></span>
                     </span>
                     <span
                       className="absolute block h-5 w-5 rounded-full border-2 border-primary bg-background shadow-sm"
-                      style={{left: `calc(${defaultValue}% - 10px)`}}
+                      style={{left: `calc(${defaultValue}% - 10px)`}} // Approximation for thumb position
                       role="slider"
                       aria-valuenow={defaultValue}
                       aria-label={sliderLabel}

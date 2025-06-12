@@ -6,49 +6,45 @@ import type { ReactNode } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
-import { Github, Link as LinkIcon, Sun, Settings2, HomeIcon, ListChecks, Info, Layers, Frame, Filter, BoxSelect, Box } from 'lucide-react';
+import { Github, Link as LinkIcon, Sun, Settings2, HomeIcon, ListChecks, Info, Layers, Frame, Filter, BoxSelect, Box, ArrowDownUp, Droplet, Contrast } from 'lucide-react';
 
 export default function HomePage() {
-  const [featureCardOpacity, setFeatureCardOpacity] = useState(0.6);
-  const [cardBlur, setCardBlur] = useState(12);
-  const [featureCardBorderWidth, setFeatureCardBorderWidth] = useState(1);
-  const [chromaticAberrationLevel, setChromaticAberrationLevel] = useState(0);
-  const [dropShadowIntensity, setDropShadowIntensity] = useState(60);
-  const [currentDropShadowClass, setCurrentDropShadowClass] = useState('shadow-lg');
-  const [bevelIntensity, setBevelIntensity] = useState(0);
+  const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(56); // 0-100, maps to 0.1-1.0
+  const [cardBlurSlider, setCardBlurSlider] = useState(50); // 0-100, maps to 0-24px
+  const [featureCardBorderWidthSlider, setFeatureCardBorderWidthSlider] = useState(13); // 0-100, maps to 0-8px
+  const [chromaticAberrationLevel, setChromaticAberrationLevel] = useState(0); // 0-100
+  const [bevelIntensity, setBevelIntensity] = useState(0); // 0-100
+  const [shadowOffsetYSlider, setShadowOffsetYSlider] = useState(40); // 0-100, maps to 0-25px
+  const [shadowBlurSlider, setShadowBlurSlider] = useState(38); // 0-100, maps to 0-40px
+  const [shadowOpacitySlider, setShadowOpacitySlider] = useState(40); // 0-100, maps to 0-0.5 alpha
 
-  useEffect(() => {
-    updateShadowClass(dropShadowIntensity);
-  }, [dropShadowIntensity]);
-
-  const updateShadowClass = (intensity: number) => {
-    if (intensity < 20) setCurrentDropShadowClass('');
-    else if (intensity < 40) setCurrentDropShadowClass('shadow-sm');
-    else if (intensity < 60) setCurrentDropShadowClass('shadow-md');
-    else if (intensity < 80) setCurrentDropShadowClass('shadow-lg');
-    else if (intensity < 95) setCurrentDropShadowClass('shadow-xl');
-    else setCurrentDropShadowClass('shadow-2xl');
-  };
+  // Derived values for actual use
+  const actualFeatureCardOpacity = 0.1 + (featureCardOpacitySlider / 100) * 0.9;
+  const actualCardBlur = cardBlurSlider / 100 * 24;
+  const actualFeatureCardBorderWidth = featureCardBorderWidthSlider / 100 * 8;
+  const actualShadowOffsetY = shadowOffsetYSlider / 100 * 25;
+  const actualShadowBlur = shadowBlurSlider / 100 * 40;
+  const actualShadowAlpha = shadowOpacitySlider / 100 * 0.5;
 
   const handleSettingChange = (id: string, value: number) => {
     if (typeof window === "undefined") return;
 
     if (id === 'borderWidthControl') {
-      const newBorderWidth = (value / 100) * 8;
-      setFeatureCardBorderWidth(newBorderWidth);
+      setFeatureCardBorderWidthSlider(value);
     } else if (id === 'featureCardOpacityControl') {
-      const newOpacity = 0.1 + (value / 100) * 0.9;
-      setFeatureCardOpacity(newOpacity);
+      setFeatureCardOpacitySlider(value);
     } else if (id === 'cardBlurControl') {
-      const newBlur = (value / 100) * 24;
-      setCardBlur(newBlur);
+      setCardBlurSlider(value);
     } else if (id === 'chromaticAberrationControl') {
       setChromaticAberrationLevel(value);
-    } else if (id === 'dropShadowControl') {
-      setDropShadowIntensity(value);
-      updateShadowClass(value);
     } else if (id === 'bevelControl') {
       setBevelIntensity(value);
+    } else if (id === 'shadowOffsetYControl') {
+      setShadowOffsetYSlider(value);
+    } else if (id === 'shadowBlurControl') {
+      setShadowBlurSlider(value);
+    } else if (id === 'shadowOpacityControl') {
+      setShadowOpacitySlider(value);
     }
   };
 
@@ -68,13 +64,6 @@ export default function HomePage() {
     { name: "Sobre", href: "#project-details", icon: <Info /> },
   ];
 
-  const initialBorderWidthSlider = Math.round((featureCardBorderWidth / 8) * 100);
-  const initialFeatureCardOpacitySlider = Math.round(((featureCardOpacity - 0.1) / 0.9) * 100);
-  const initialCardBlurSlider = Math.round((cardBlur / 24) * 100);
-  const initialChromaticAberrationSlider = chromaticAberrationLevel;
-  const initialDropShadowSlider = dropShadowIntensity;
-  const initialBevelIntensitySlider = bevelIntensity;
-
   const featureCardsConfig: Array<{
     id: string;
     title: string;
@@ -89,7 +78,7 @@ export default function HomePage() {
       description: "Ajuste a espessura da borda dos cards interativos.",
       icon: <Frame />,
       sliderLabel: "Espessura da Borda",
-      defaultValue: initialBorderWidthSlider,
+      defaultValue: featureCardBorderWidthSlider,
     },
     {
       id: "featureCardOpacityControl",
@@ -97,7 +86,7 @@ export default function HomePage() {
       description: "Controle a opacidade do fundo dos cards interativos.",
       icon: <Layers />,
       sliderLabel: "Opacidade",
-      defaultValue: initialFeatureCardOpacitySlider,
+      defaultValue: featureCardOpacitySlider,
     },
     {
       id: "cardBlurControl",
@@ -105,7 +94,31 @@ export default function HomePage() {
       description: "Ajuste o nível de desfoque dos cards interativos.",
       icon: <Settings2 />,
       sliderLabel: "Nível de Desfoque",
-      defaultValue: initialCardBlurSlider,
+      defaultValue: cardBlurSlider,
+    },
+    {
+      id: "shadowOffsetYControl",
+      title: "Distância da Sombra (Vertical)",
+      description: "Ajuste o deslocamento vertical da sombra projetada.",
+      icon: <ArrowDownUp />,
+      sliderLabel: "Offset Y",
+      defaultValue: shadowOffsetYSlider,
+    },
+    {
+      id: "shadowBlurControl",
+      title: "Desfoque da Sombra",
+      description: "Ajuste o raio de desfoque da sombra projetada.",
+      icon: <Droplet />,
+      sliderLabel: "Blur",
+      defaultValue: shadowBlurSlider,
+    },
+    {
+      id: "shadowOpacityControl",
+      title: "Opacidade da Sombra",
+      description: "Ajuste a opacidade da sombra projetada.",
+      icon: <Contrast />,
+      sliderLabel: "Opacidade",
+      defaultValue: shadowOpacitySlider,
     },
     {
       id: "chromaticAberrationControl",
@@ -113,15 +126,7 @@ export default function HomePage() {
       description: "Ajuste a intensidade da aberração cromática (efeito visual não implementado).",
       icon: <Filter />,
       sliderLabel: "Intensidade",
-      defaultValue: initialChromaticAberrationSlider,
-    },
-    {
-      id: "dropShadowControl",
-      title: "Sombra Projetada nos Cards",
-      description: "Ajuste a intensidade da sombra projetada nos cards.",
-      icon: <BoxSelect />,
-      sliderLabel: "Intensidade da Sombra",
-      defaultValue: initialDropShadowSlider,
+      defaultValue: chromaticAberrationLevel,
     },
     {
       id: "bevelControl",
@@ -129,21 +134,24 @@ export default function HomePage() {
       description: "Ajuste a intensidade do efeito de chanfro (efeito visual não implementado).",
       icon: <Box />,
       sliderLabel: "Intensidade do Chanfro",
-      defaultValue: initialBevelIntensitySlider,
+      defaultValue: bevelIntensity,
     },
   ];
 
-  const sharedCardStyleBase: Omit<React.CSSProperties, 'backdropFilter' | 'WebkitBackdropFilter' | 'borderWidth'> = {
-    backgroundColor: `hsla(0, 0%, 100%, ${featureCardOpacity})`,
+  const dynamicBoxShadow = `0px ${actualShadowOffsetY.toFixed(1)}px ${actualShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})`;
+
+  const sharedCardStyleBase: Omit<React.CSSProperties, 'backdropFilter' | 'WebkitBackdropFilter' | 'borderWidth' | 'boxShadow'> = {
+    backgroundColor: `hsla(0, 0%, 100%, ${actualFeatureCardOpacity})`,
     borderStyle: 'solid',
     borderColor: 'hsla(0, 0%, 100%, 0.2)',
   };
 
   const sharedCardStyle: React.CSSProperties = {
     ...sharedCardStyleBase,
-    backdropFilter: `blur(${cardBlur}px)`,
-    WebkitBackdropFilter: `blur(${cardBlur}px)`,
-    borderWidth: `${featureCardBorderWidth}px`,
+    backdropFilter: `blur(${actualCardBlur}px)`,
+    WebkitBackdropFilter: `blur(${actualCardBlur}px)`,
+    borderWidth: `${actualFeatureCardBorderWidth}px`,
+    boxShadow: dynamicBoxShadow,
   };
 
   return (
@@ -171,17 +179,19 @@ export default function HomePage() {
             </h2>
             <ProjectDetailsCard
               {...projectDetails}
-              backgroundOpacity={featureCardOpacity}
-              currentBlur={cardBlur}
-              borderWidth={featureCardBorderWidth}
-              shadowClassName={currentDropShadowClass}
+              backgroundOpacity={actualFeatureCardOpacity}
+              currentBlur={actualCardBlur}
+              borderWidth={actualFeatureCardBorderWidth}
+              shadowOffsetY={actualShadowOffsetY}
+              shadowBlur={actualShadowBlur}
+              shadowOpacity={actualShadowAlpha}
             />
           </section>
 
           <section
             id="navigation"
             aria-labelledby="navigation-heading"
-            className={`py-10 md:py-12 rounded-xl scroll-mt-20 ${currentDropShadowClass}`}
+            className={`py-10 md:py-12 rounded-xl scroll-mt-20`}
             style={sharedCardStyle}
           >
             <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-foreground drop-shadow-md">
@@ -205,10 +215,12 @@ export default function HomePage() {
                   sliderLabel={card.sliderLabel}
                   defaultValue={card.defaultValue}
                   onSettingChange={handleSettingChange}
-                  currentBlur={cardBlur}
-                  backgroundOpacity={featureCardOpacity}
-                  borderWidth={featureCardBorderWidth}
-                  shadowClassName={currentDropShadowClass}
+                  currentBlur={actualCardBlur}
+                  backgroundOpacity={actualFeatureCardOpacity}
+                  borderWidth={actualFeatureCardBorderWidth}
+                  shadowOffsetY={actualShadowOffsetY}
+                  shadowBlur={actualShadowBlur}
+                  shadowOpacity={actualShadowAlpha}
                 />
               ))}
             </div>
