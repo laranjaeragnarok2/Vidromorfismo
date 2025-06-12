@@ -22,7 +22,7 @@ export default function HomePage() {
   const actualCardBlur = cardBlurSlider / 100 * 24;
   const actualCardBorderRadius = (cardBorderRadiusSlider / 100) * 2;
 
-  const actualInnerBottomShadowBlur = (innerBottomShadowBlurSlider / 100) * 25; // Increased max blur
+  const actualInnerBottomShadowBlur = (innerBottomShadowBlurSlider / 100) * 25; 
 
   const actualShadowBlur = shadowBlurSlider / 100 * 40;
   const actualShadowAlpha = shadowOpacitySlider / 100 * 0.3;
@@ -150,10 +150,8 @@ export default function HomePage() {
   return (
     <>
       <div
-        className="min-h-screen text-foreground transition-opacity duration-500"
-        style={{
-          background: 'radial-gradient(ellipse at center, hsl(0, 0%, 95%) 0%, hsl(0, 0%, 20%) 70%, hsl(0, 0%, 5%) 100%)'
-        }}
+        className="min-h-screen text-foreground transition-opacity duration-500 bg-cover bg-center bg-no-repeat bg-fixed bg-[url('https://placehold.co/1920x1080.png')]"
+        data-ai-hint="abstract background"
       >
         <div className="container mx-auto px-4 py-8 md:py-12 relative z-10">
           <header className="mb-12 md:mb-16 text-center">
