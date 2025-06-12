@@ -116,13 +116,13 @@ export default function HomePage() {
     },
   ];
 
-  const dynamicBoxShadow = `inset 0 1px 2px hsla(0, 0%, 100%, 0.5), inset 0 -1px 1px hsla(240, 10%, 20%, 0.1), 0px ${actualShadowOffsetY.toFixed(1)}px ${actualShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})`;
+  const dynamicBoxShadow = `inset 0 2px 4px hsla(0, 0%, 100%, 0.7), inset 0 -2px 2px hsla(210, 20%, 0%, 0.15), 0px ${actualShadowOffsetY.toFixed(1)}px ${actualShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})`;
 
   const sharedCardStyleBase: Omit<React.CSSProperties, 'backdropFilter' | 'WebkitBackdropFilter' | 'boxShadow' | 'borderRadius'> = {
     backgroundColor: `hsla(0, 0%, 100%, ${actualFeatureCardOpacity})`,
     borderWidth: '2px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.35)',
+    borderColor: 'hsla(0, 0%, 100%, 0.45)', // Ajustado para borda mais definida
   };
 
   const sharedCardStyle: React.CSSProperties = {
@@ -184,9 +184,7 @@ export default function HomePage() {
                   currentBlur={actualCardBlur}
                   backgroundOpacity={actualFeatureCardOpacity}
                   borderRadiusValue={actualCardBorderRadius}
-                  shadowOffsetY={actualShadowOffsetY}
-                  shadowBlur={actualShadowBlur}
-                  shadowOpacity={actualShadowAlpha}
+                  boxShadowStyle={dynamicBoxShadow} // Passa a string completa da sombra
                 />
               ))}
             </div>
@@ -201,9 +199,7 @@ export default function HomePage() {
               backgroundOpacity={actualFeatureCardOpacity}
               currentBlur={actualCardBlur}
               borderRadiusValue={actualCardBorderRadius}
-              shadowOffsetY={actualShadowOffsetY}
-              shadowBlur={actualShadowBlur}
-              shadowOpacity={actualShadowAlpha}
+              boxShadowStyle={dynamicBoxShadow} // Passa a string completa da sombra
             />
           </section>
         </main>
@@ -220,3 +216,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    

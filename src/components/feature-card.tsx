@@ -18,9 +18,7 @@ interface FeatureCardProps {
   currentBlur?: number; // actual px value
   backgroundOpacity?: number; // actual opacity value 0-1
   borderRadiusValue?: number; // actual rem value
-  shadowOffsetY?: number; // actual px value
-  shadowBlur?: number; // actual px value
-  shadowOpacity?: number; // actual alpha value 0-1
+  boxShadowStyle?: string; // Nova prop para a string completa do boxShadow
 }
 
 export const FeatureCard: FC<FeatureCardProps> = ({
@@ -34,9 +32,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   currentBlur,
   backgroundOpacity,
   borderRadiusValue,
-  shadowOffsetY,
-  shadowBlur,
-  shadowOpacity,
+  boxShadowStyle, 
 }) => {
   const [sliderValueState, setSliderValueState] = useState<number[]>([defaultValue]);
   const [isMounted, setIsMounted] = useState(false);
@@ -76,7 +72,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.6})`,
     borderWidth: '2px',
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.35)',
+    borderColor: 'hsla(0, 0%, 100%, 0.45)', // Ajustado para borda mais definida
   };
    if (borderRadiusValue !== undefined) {
     cardStyle.borderRadius = `${borderRadiusValue.toFixed(2)}rem`;
@@ -85,8 +81,8 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     cardStyle.backdropFilter = `blur(${currentBlur.toFixed(1)}px)`;
     cardStyle.WebkitBackdropFilter = `blur(${currentBlur.toFixed(1)}px)`;
   }
-  if (shadowOffsetY !== undefined && shadowBlur !== undefined && shadowOpacity !== undefined) {
-    cardStyle.boxShadow = `inset 0 1px 2px hsla(0, 0%, 100%, 0.5), inset 0 -1px 1px hsla(240, 10%, 20%, 0.1), 0px ${shadowOffsetY.toFixed(1)}px ${shadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${shadowOpacity.toFixed(2)})`;
+  if (boxShadowStyle !== undefined) { // Usa a prop boxShadowStyle
+    cardStyle.boxShadow = boxShadowStyle;
   }
   
   return (
@@ -147,3 +143,5 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     </Card>
   );
 };
+
+    
