@@ -76,7 +76,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   const cardStyle: React.CSSProperties = {
     backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.6})`,
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.2)',
+    borderColor: 'hsla(0, 0%, 100%, 0.2)', // Keep border color as it is for visual separation
   };
    if (borderWidth !== undefined) {
     cardStyle.borderWidth = `${borderWidth.toFixed(1)}px`;
@@ -90,7 +90,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   }
   
   return (
-    <Card 
+    <Card
       className={cn("transition-shadow duration-300 flex flex-col rounded-xl overflow-hidden")}
       style={cardStyle}
     >
