@@ -6,23 +6,26 @@ import type { ReactNode } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
-import { Github, Instagram, Settings2, HomeIcon, ListChecks, Info, Layers, Shapes, ArrowDownUp, Droplet, Contrast } from 'lucide-react';
+import { Github, Instagram, Settings2, HomeIcon, ListChecks, Info, Layers, Shapes, Baseline, Droplet, Contrast } from 'lucide-react';
 
 export default function HomePage() {
   const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(56); // Maps to 60% opacity
   const [cardBlurSlider, setCardBlurSlider] = useState(50); // Maps to 12px blur
   const [cardBorderRadiusSlider, setCardBorderRadiusSlider] = useState(37.5); // Maps to 0.75rem radius
-  const [shadowOffsetYSlider, setShadowOffsetYSlider] = useState(40); // Maps to 10px Y offset
-  const [shadowBlurSlider, setShadowBlurSlider] = useState(38); // Maps to 15.2px shadow blur
-  const [shadowOpacitySlider, setShadowOpacitySlider] = useState(40); // Maps to 0.2 (20%) shadow opacity
+  const [innerBottomShadowBlurSlider, setInnerBottomShadowBlurSlider] = useState(30); // Maps to 3px inner shadow blur (0-10px range)
+  const [shadowBlurSlider, setShadowBlurSlider] = useState(38); // Maps to 15.2px outer shadow blur
+  const [shadowOpacitySlider, setShadowOpacitySlider] = useState(40); // Maps to 0.2 (20%) outer shadow opacity
 
   // Derived values for actual use
   const actualFeatureCardOpacity = 0.1 + (featureCardOpacitySlider / 100) * 0.9;
   const actualCardBlur = cardBlurSlider / 100 * 24;
   const actualCardBorderRadius = (cardBorderRadiusSlider / 100) * 2; // maps to 0-2rem
-  const actualShadowOffsetY = shadowOffsetYSlider / 100 * 25;
-  const actualShadowBlur = shadowBlurSlider / 100 * 40;
-  const actualShadowAlpha = shadowOpacitySlider / 100 * 0.5;
+  
+  const actualInnerBottomShadowBlur = (innerBottomShadowBlurSlider / 100) * 10; // 0-10px range for inner shadow blur
+  
+  const actualShadowBlur = shadowBlurSlider / 100 * 40; // Outer shadow blur
+  const actualShadowAlpha = shadowOpacitySlider / 100 * 0.5; // Outer shadow opacity
+  const fixedOuterShadowOffsetY = 4; // Fixed Y-offset for outer shadow
 
   const handleSettingChange = (id: string, value: number) => {
     if (typeof window === "undefined") return;
@@ -33,8 +36,8 @@ export default function HomePage() {
       setFeatureCardOpacitySlider(value);
     } else if (id === 'cardBlurControl') {
       setCardBlurSlider(value);
-    } else if (id === 'shadowOffsetYControl') {
-      setShadowOffsetYSlider(value);
+    } else if (id === 'innerBottomShadowBlurControl') { // Changed from shadowOffsetYControl
+      setInnerBottomShadowBlurSlider(value);
     } else if (id === 'shadowBlurControl') {
       setShadowBlurSlider(value);
     } else if (id === 'shadowOpacityControl') {
@@ -91,38 +94,44 @@ export default function HomePage() {
       defaultValue: cardBlurSlider,
     },
     {
-      id: "shadowOffsetYControl",
-      title: "Distância da Sombra (Vertical)",
-      description: "Ajuste o deslocamento vertical da sombra projetada.",
-      icon: <ArrowDownUp />,
-      sliderLabel: "Offset Y",
-      defaultValue: shadowOffsetYSlider,
+      id: "innerBottomShadowBlurControl", // Changed ID
+      title: "Profundidade Interna (Desfoque)", // Changed Title
+      description: "Ajuste o desfoque da sombra interna inferior para profundidade.", // Changed Description
+      icon: <Baseline />, // Changed Icon
+      sliderLabel: "Profund. Desfoque", // Changed Label
+      defaultValue: innerBottomShadowBlurSlider,
     },
     {
       id: "shadowBlurControl",
-      title: "Desfoque da Sombra",
-      description: "Ajuste o raio de desfoque da sombra projetada.",
+      title: "Desfoque da Sombra Externa",
+      description: "Ajuste o raio de desfoque da sombra projetada externa.",
       icon: <Droplet />,
-      sliderLabel: "Blur",
+      sliderLabel: "Desfoque Externo",
       defaultValue: shadowBlurSlider,
     },
     {
       id: "shadowOpacityControl",
-      title: "Opacidade da Sombra",
-      description: "Ajuste a opacidade da sombra projetada.",
+      title: "Opacidade da Sombra Externa",
+      description: "Ajuste a opacidade da sombra projetada externa.",
       icon: <Contrast />,
-      sliderLabel: "Opacidade",
+      sliderLabel: "Opacid. Externa",
       defaultValue: shadowOpacitySlider,
     },
   ];
 
-  const dynamicBoxShadow = `inset 0px 1px 2px hsla(0, 0%, 100%, 0.2), 0px ${actualShadowOffsetY.toFixed(1)}px ${actualShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})`;
+  // Refined box shadow for a more realistic glass effect
+  const dynamicBoxShadow = `
+    inset 0px 3px 4px -2px hsla(0, 0%, 100%, 0.35), 
+    inset 0px 1px 2px 0px hsla(0, 0%, 100%, 0.6),
+    inset 0px -2px ${actualInnerBottomShadowBlur.toFixed(1)}px rgba(0, 0, 0, 0.12),
+    0px ${fixedOuterShadowOffsetY}px ${actualShadowBlur.toFixed(1)}px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})
+  `;
 
   const sharedCardStyleBase: Omit<React.CSSProperties, 'backdropFilter' | 'WebkitBackdropFilter' | 'boxShadow' | 'borderRadius'> = {
-    backgroundColor: `hsla(0, 0%, 15%, ${actualFeatureCardOpacity})`, // Dark translucent background
-    borderWidth: '1px',
+    backgroundColor: `hsla(0, 0%, 15%, ${actualFeatureCardOpacity})`,
+    borderWidth: '1px', // Kept 1px as per previous refinement towards iOS style
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.1)', // Subtle light border
+    borderColor: 'hsla(0, 0%, 100%, 0.15)', // Slightly more visible border
   };
 
   const sharedCardStyle: React.CSSProperties = {
@@ -184,7 +193,7 @@ export default function HomePage() {
                   currentBlur={actualCardBlur}
                   backgroundOpacity={actualFeatureCardOpacity}
                   borderRadiusValue={actualCardBorderRadius}
-                  boxShadowStyle={dynamicBoxShadow}
+                  boxShadowStyle={dynamicBoxShadow} // Pass the full shadow style
                 />
               ))}
             </div>
@@ -199,7 +208,7 @@ export default function HomePage() {
               backgroundOpacity={actualFeatureCardOpacity}
               currentBlur={actualCardBlur}
               borderRadiusValue={actualCardBorderRadius}
-              boxShadowStyle={dynamicBoxShadow}
+              boxShadowStyle={dynamicBoxShadow} // Pass the full shadow style
             />
           </section>
         </main>
@@ -216,3 +225,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    
