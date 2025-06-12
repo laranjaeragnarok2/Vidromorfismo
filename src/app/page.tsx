@@ -6,14 +6,12 @@ import type { ReactNode } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
-import { Github, Instagram, Settings2, HomeIcon, ListChecks, Info, Layers, Shapes, Filter, Box, ArrowDownUp, Droplet, Contrast } from 'lucide-react';
+import { Github, Instagram, Settings2, HomeIcon, ListChecks, Info, Layers, Shapes, ArrowDownUp, Droplet, Contrast } from 'lucide-react';
 
 export default function HomePage() {
   const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(56); // 0-100, maps to 0.1-1.0
   const [cardBlurSlider, setCardBlurSlider] = useState(50); // 0-100, maps to 0-24px
   const [cardBorderRadiusSlider, setCardBorderRadiusSlider] = useState(37.5); // 0-100, maps to 0-2rem (default 0.75rem)
-  const [chromaticAberrationLevel, setChromaticAberrationLevel] = useState(0); // 0-100
-  const [bevelIntensity, setBevelIntensity] = useState(0); // 0-100
   const [shadowOffsetYSlider, setShadowOffsetYSlider] = useState(40); // 0-100, maps to 0-25px
   const [shadowBlurSlider, setShadowBlurSlider] = useState(38); // 0-100, maps to 0-40px
   const [shadowOpacitySlider, setShadowOpacitySlider] = useState(40); // 0-100, maps to 0-0.5 alpha
@@ -35,10 +33,6 @@ export default function HomePage() {
       setFeatureCardOpacitySlider(value);
     } else if (id === 'cardBlurControl') {
       setCardBlurSlider(value);
-    } else if (id === 'chromaticAberrationControl') {
-      setChromaticAberrationLevel(value);
-    } else if (id === 'bevelControl') {
-      setBevelIntensity(value);
     } else if (id === 'shadowOffsetYControl') {
       setShadowOffsetYSlider(value);
     } else if (id === 'shadowBlurControl') {
@@ -120,22 +114,6 @@ export default function HomePage() {
       sliderLabel: "Opacidade",
       defaultValue: shadowOpacitySlider,
     },
-    {
-      id: "chromaticAberrationControl",
-      title: "Aberração Cromática",
-      description: "Ajuste a intensidade da aberração cromática (efeito visual não implementado).",
-      icon: <Filter />,
-      sliderLabel: "Intensidade",
-      defaultValue: chromaticAberrationLevel,
-    },
-    {
-      id: "bevelControl",
-      title: "Efeito Chanfro (Bevel)",
-      description: "Ajuste a intensidade do efeito de chanfro (efeito visual não implementado).",
-      icon: <Box />,
-      sliderLabel: "Intensidade do Chanfro",
-      defaultValue: bevelIntensity,
-    },
   ];
 
   const dynamicBoxShadow = `0px ${actualShadowOffsetY.toFixed(1)}px ${actualShadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})`;
@@ -178,7 +156,7 @@ export default function HomePage() {
           <section
             id="navigation"
             aria-labelledby="navigation-heading"
-            className={`py-10 md:py-12 scroll-mt-20`} // removed rounded-xl, dynamic now
+            className={`py-10 md:py-12 scroll-mt-20`}
             style={sharedCardStyle}
           >
             <h2 id="navigation-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-foreground drop-shadow-md">
