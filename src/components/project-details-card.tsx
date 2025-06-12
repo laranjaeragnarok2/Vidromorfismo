@@ -40,7 +40,7 @@ export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({
   const cardStyle: React.CSSProperties = {
     backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.7})`,
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.2)', // Default border width (1px) will be applied by Card component's "border" class
+    borderColor: 'hsla(0, 0%, 100%, 0.2)',
   };
 
   if (currentBlur !== undefined) {
@@ -51,12 +51,12 @@ export const ProjectDetailsCard: FC<ProjectDetailsCardProps> = ({
     cardStyle.borderRadius = `${borderRadiusValue.toFixed(2)}rem`;
   }
   if (shadowOffsetY !== undefined && shadowBlur !== undefined && shadowOpacity !== undefined) {
-    cardStyle.boxShadow = `0px ${shadowOffsetY.toFixed(1)}px ${shadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${shadowOpacity.toFixed(2)})`;
+    cardStyle.boxShadow = `inset 0px 1px 1px hsla(0, 0%, 100%, 0.3), 0px ${shadowOffsetY.toFixed(1)}px ${shadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${shadowOpacity.toFixed(2)})`;
   }
 
   return (
     <Card 
-      className={cn("w-full max-w-2xl mx-auto overflow-hidden")} // removed rounded-xl, dynamic now
+      className={cn("w-full max-w-2xl mx-auto overflow-hidden")}
       style={cardStyle}
     >
       <CardHeader className="text-center bg-transparent p-6">

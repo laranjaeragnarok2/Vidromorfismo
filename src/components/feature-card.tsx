@@ -67,7 +67,6 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     if (id === 'shadowOpacityControl') {
         return { display: (val / 100 * 50).toFixed(0), unit: '%' };
     }
-    if (id === 'chromaticAberrationControl' || id === 'bevelControl') return { display: val.toFixed(0), unit: ''};
     return { display: val.toFixed(0), unit: ''};
   };
 
@@ -76,7 +75,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   const cardStyle: React.CSSProperties = {
     backgroundColor: `hsla(0, 0%, 100%, ${backgroundOpacity ?? 0.6})`,
     borderStyle: 'solid',
-    borderColor: 'hsla(0, 0%, 100%, 0.2)', // Default border width (1px) will be applied by Card component's "border" class
+    borderColor: 'hsla(0, 0%, 100%, 0.2)',
   };
    if (borderRadiusValue !== undefined) {
     cardStyle.borderRadius = `${borderRadiusValue.toFixed(2)}rem`;
@@ -86,12 +85,12 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     cardStyle.WebkitBackdropFilter = `blur(${currentBlur.toFixed(1)}px)`;
   }
   if (shadowOffsetY !== undefined && shadowBlur !== undefined && shadowOpacity !== undefined) {
-    cardStyle.boxShadow = `0px ${shadowOffsetY.toFixed(1)}px ${shadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${shadowOpacity.toFixed(2)})`;
+    cardStyle.boxShadow = `inset 0px 1px 1px hsla(0, 0%, 100%, 0.3), 0px ${shadowOffsetY.toFixed(1)}px ${shadowBlur.toFixed(1)}px 0px rgba(0, 0, 0, ${shadowOpacity.toFixed(2)})`;
   }
   
   return (
     <Card
-      className={cn("transition-shadow duration-300 flex flex-col overflow-hidden")} // removed rounded-xl, dynamic now
+      className={cn("transition-shadow duration-300 flex flex-col overflow-hidden")}
       style={cardStyle}
     >
       <CardHeader className="items-center text-center p-4 bg-transparent">
