@@ -152,7 +152,7 @@ export default function HomePage() {
       <div
         className="min-h-screen text-foreground transition-opacity duration-500"
         style={{
-          background: 'radial-gradient(ellipse at center, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 20%) 70%, hsl(0, 0%, 5%) 100%)'
+          background: 'radial-gradient(ellipse at center, hsl(0, 0%, 95%) 0%, hsl(0, 0%, 20%) 70%, hsl(0, 0%, 5%) 100%)'
         }}
       >
         <div className="container mx-auto px-4 py-8 md:py-12 relative z-10">
