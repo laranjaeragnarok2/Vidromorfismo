@@ -52,8 +52,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({
   const getUnit = () => {
     if (id === 'borderWidthControl') return 'px';
     if (id === 'featureCardOpacityControl' || id === 'cardBlurControl' || id === 'dropShadowControl') return '%';
-    // Removed specific unit for dropShadowControl as it's an intensity percentage.
-    // Chromatic aberration also has no unit.
+    // Chromatic aberration and Bevel have no unit for now.
     return ''; 
   };
 
@@ -128,5 +127,3 @@ export const FeatureCard: FC<FeatureCardProps> = ({
     </Card>
   );
 };
-
-    

@@ -6,20 +6,20 @@ import type { ReactNode } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { NavigationLinks } from '@/components/navigation-links';
 import { FeatureCard } from '@/components/feature-card';
-import { Github, Link as LinkIcon, Sun, Settings2, HomeIcon, ListChecks, Info, Layers, Frame, Filter, BoxSelect } from 'lucide-react';
+import { Github, Link as LinkIcon, Sun, Settings2, HomeIcon, ListChecks, Info, Layers, Frame, Filter, BoxSelect, Box } from 'lucide-react';
 
 export default function HomePage() {
   const [featureCardOpacity, setFeatureCardOpacity] = useState(0.6);
   const [cardBlur, setCardBlur] = useState(12);
   const [featureCardBorderWidth, setFeatureCardBorderWidth] = useState(1);
   const [chromaticAberrationLevel, setChromaticAberrationLevel] = useState(0);
-  const [dropShadowIntensity, setDropShadowIntensity] = useState(60); // Default to a value that maps to shadow-lg
+  const [dropShadowIntensity, setDropShadowIntensity] = useState(60);
   const [currentDropShadowClass, setCurrentDropShadowClass] = useState('shadow-lg');
+  const [bevelIntensity, setBevelIntensity] = useState(0);
 
   useEffect(() => {
-    // Initial shadow class update based on default intensity
     updateShadowClass(dropShadowIntensity);
-  }, []);
+  }, [dropShadowIntensity]);
 
   const updateShadowClass = (intensity: number) => {
     if (intensity < 20) setCurrentDropShadowClass('');
@@ -47,6 +47,8 @@ export default function HomePage() {
     } else if (id === 'dropShadowControl') {
       setDropShadowIntensity(value);
       updateShadowClass(value);
+    } else if (id === 'bevelControl') {
+      setBevelIntensity(value);
     }
   };
 
@@ -71,6 +73,7 @@ export default function HomePage() {
   const initialCardBlurSlider = Math.round((cardBlur / 24) * 100);
   const initialChromaticAberrationSlider = chromaticAberrationLevel;
   const initialDropShadowSlider = dropShadowIntensity;
+  const initialBevelIntensitySlider = bevelIntensity;
 
   const featureCardsConfig: Array<{
     id: string;
@@ -120,6 +123,14 @@ export default function HomePage() {
       sliderLabel: "Intensidade da Sombra",
       defaultValue: initialDropShadowSlider,
     },
+    {
+      id: "bevelControl",
+      title: "Efeito Chanfro (Bevel)",
+      description: "Ajuste a intensidade do efeito de chanfro (efeito visual não implementado).",
+      icon: <Box />,
+      sliderLabel: "Intensidade do Chanfro",
+      defaultValue: initialBevelIntensitySlider,
+    },
   ];
 
   const sharedCardStyleBase: Omit<React.CSSProperties, 'backdropFilter' | 'WebkitBackdropFilter' | 'borderWidth'> = {
@@ -127,7 +138,7 @@ export default function HomePage() {
     borderStyle: 'solid',
     borderColor: 'hsla(0, 0%, 100%, 0.2)',
   };
-  
+
   const sharedCardStyle: React.CSSProperties = {
     ...sharedCardStyleBase,
     backdropFilter: `blur(${cardBlur}px)`,
@@ -138,7 +149,7 @@ export default function HomePage() {
   return (
     <div
       className="min-h-screen text-foreground bg-cover bg-center transition-opacity duration-500"
-      style={{ 
+      style={{
         backgroundImage: "url('https://w.wallhaven.cc/full/5y/wallhaven-5yd6d5.png')",
       }}
       data-ai-hint="colorful abstract"
@@ -167,9 +178,9 @@ export default function HomePage() {
             />
           </section>
 
-          <section 
-            id="navigation" 
-            aria-labelledby="navigation-heading" 
+          <section
+            id="navigation"
+            aria-labelledby="navigation-heading"
             className={`py-10 md:py-12 rounded-xl scroll-mt-20 ${currentDropShadowClass}`}
             style={sharedCardStyle}
           >
@@ -216,5 +227,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-    
