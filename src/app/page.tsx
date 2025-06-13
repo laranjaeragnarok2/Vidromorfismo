@@ -142,8 +142,8 @@ export default function HomePage() {
   return (
     <>
       <div
-        className="min-h-screen bg-[url('https://w.wallhaven.cc/full/gw/wallhaven-gwjq3d.jpg')] bg-cover bg-center bg-no-repeat bg-fixed"
-        data-ai-hint="abstract geometric"
+        className="min-h-screen bg-[url('https://w.wallhaven.cc/full/yq/wallhaven-yqj53x.png')] bg-cover bg-center bg-no-repeat bg-fixed"
+        data-ai-hint="mountain landscape"
       >
         <div className="text-foreground transition-opacity duration-500">
           <div className="container mx-auto px-4 py-8 md:py-12 relative z-10">
@@ -220,4 +220,6 @@ export default function HomePage() {
     </>
   );
 }
+    
+
     
