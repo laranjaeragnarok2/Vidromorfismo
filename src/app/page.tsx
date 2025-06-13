@@ -9,12 +9,12 @@ import { Github, Instagram, Settings2, Layers, Shapes, Baseline, Droplet, Contra
 import { SplineViewer } from '@/components/spline-viewer';
 
 export default function HomePage() {
-  const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(24); // Atualizado de 56
-  const [cardBlurSlider, setCardBlurSlider] = useState(27); // Atualizado de 50
-  const [cardBorderRadiusSlider, setCardBorderRadiusSlider] = useState(100); // Atualizado de 37.5
-  const [innerBottomShadowBlurSlider, setInnerBottomShadowBlurSlider] = useState(0); // Atualizado de 30
-  const [shadowBlurSlider, setShadowBlurSlider] = useState(100); // Atualizado de 38
-  const [shadowOpacitySlider, setShadowOpacitySlider] = useState(100); // Atualizado de 40
+  const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(24);
+  const [cardBlurSlider, setCardBlurSlider] = useState(27);
+  const [cardBorderRadiusSlider, setCardBorderRadiusSlider] = useState(100);
+  const [innerBottomShadowBlurSlider, setInnerBottomShadowBlurSlider] = useState(0);
+  const [shadowBlurSlider, setShadowBlurSlider] = useState(100);
+  const [shadowOpacitySlider, setShadowOpacitySlider] = useState(100);
 
   // Derived values for actual use
   const actualFeatureCardOpacity = 0.1 + (featureCardOpacitySlider / 100) * 0.9;
@@ -124,7 +124,6 @@ export default function HomePage() {
     0px ${fixedOuterShadowOffsetY}px ${actualShadowBlur.toFixed(1)}px rgba(0, 0, 0, ${actualShadowAlpha.toFixed(2)})
   `;
 
-
   const sharedCardStyleBase: Omit<React.CSSProperties, 'backdropFilter' | 'WebkitBackdropFilter' | 'boxShadow' | 'borderRadius'> = {
     backgroundColor: `hsla(0, 0%, 15%, ${actualFeatureCardOpacity})`,
     borderWidth: '1px',
@@ -143,77 +142,79 @@ export default function HomePage() {
   return (
     <>
       <div
-        className="min-h-screen text-foreground transition-opacity duration-500 bg-cover bg-center bg-no-repeat bg-fixed bg-[url('https://w.wallhaven.cc/full/gw/wallhaven-gwjq3d.jpg')]"
+        className="min-h-screen bg-[url('https://w.wallhaven.cc/full/gw/wallhaven-gwjq3d.jpg')] bg-cover bg-center bg-no-repeat bg-fixed"
         data-ai-hint="abstract geometric"
       >
-        <div className="container mx-auto px-4 py-8 md:py-12 relative z-10">
-          <header className="mb-12 md:mb-16 text-center">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-headline font-bold text-primary drop-shadow-lg">
-              Liquid Glass React
-            </h1>
-            <p className="text-slate-300 mt-3 text-lg md:text-xl max-w-2xl mx-auto bg-black/30 backdrop-blur-sm p-2 rounded-md drop-shadow-sm">
-              Explore os recursos e a personalização da interface do usuário de forma clara e acessível.
-            </p>
-          </header>
+        <div className="text-foreground transition-opacity duration-500">
+          <div className="container mx-auto px-4 py-8 md:py-12 relative z-10">
+            <header className="mb-12 md:mb-16 text-center">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-headline font-bold text-primary drop-shadow-lg">
+                Liquid Glass React
+              </h1>
+              <p className="text-slate-300 mt-3 text-lg md:text-xl max-w-2xl mx-auto bg-black/30 backdrop-blur-sm p-2 rounded-md drop-shadow-sm">
+                Explore os recursos e a personalização da interface do usuário de forma clara e acessível.
+              </p>
+            </header>
 
-          <main className="space-y-12 md:space-y-16">
-            <h2 className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-slate-100 drop-shadow-md">
-              Este é nosso objetivo
-            </h2>
-            <section
-              id="objective-spline"
-              aria-label="Visualização do Objetivo com Spline"
-              className="scroll-mt-20 relative rounded-lg overflow-hidden shadow-xl h-[400px] md:h-[500px] w-full max-w-4xl mx-auto"
-            >
-              <SplineViewer splineUrl={splineSceneUrl} className="w-full h-full" />
-            </section>
-
-            <section id="features" aria-labelledby="features-heading" className="scroll-mt-20">
-              <h2 id="features-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-slate-100 drop-shadow-md">
-                Funcionalidades Interativas
+            <main className="space-y-12 md:space-y-16">
+              <h2 className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-slate-100 drop-shadow-md">
+                Este é nosso objetivo
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 md:gap-8">
-                {featureCardsConfig.map((card) => (
-                  <FeatureCard
-                    key={card.id}
-                    id={card.id}
-                    title={card.title}
-                    description={card.description}
-                    icon={card.icon}
-                    sliderLabel={card.sliderLabel}
-                    defaultValue={card.defaultValue}
-                    onSettingChange={handleSettingChange}
-                    currentBlur={actualCardBlur}
-                    backgroundOpacity={actualFeatureCardOpacity}
-                    borderRadiusValue={actualCardBorderRadius}
-                    boxShadowStyle={dynamicBoxShadow}
-                  />
-                ))}
-              </div>
-            </section>
+              <section
+                id="objective-spline"
+                aria-label="Visualização do Objetivo com Spline"
+                className="scroll-mt-20 relative rounded-lg overflow-hidden shadow-xl h-[400px] md:h-[500px] w-full max-w-4xl mx-auto"
+              >
+                <SplineViewer splineUrl={splineSceneUrl} className="w-full h-full" />
+              </section>
 
-            <section id="project-details" aria-labelledby="project-details-heading" className="scroll-mt-20">
-              <h2 id="project-details-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-slate-100 drop-shadow-md">
-                Detalhes do Projeto
-              </h2>
-              <ProjectDetailsCard
-                {...projectDetails}
-                backgroundOpacity={actualFeatureCardOpacity}
-                currentBlur={actualCardBlur}
-                borderRadiusValue={actualCardBorderRadius}
-                boxShadowStyle={dynamicBoxShadow}
-              />
-            </section>
-          </main>
+              <section id="features" aria-labelledby="features-heading" className="scroll-mt-20">
+                <h2 id="features-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-10 text-center text-slate-100 drop-shadow-md">
+                  Funcionalidades Interativas
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 md:gap-8">
+                  {featureCardsConfig.map((card) => (
+                    <FeatureCard
+                      key={card.id}
+                      id={card.id}
+                      title={card.title}
+                      description={card.description}
+                      icon={card.icon}
+                      sliderLabel={card.sliderLabel}
+                      defaultValue={card.defaultValue}
+                      onSettingChange={handleSettingChange}
+                      currentBlur={actualCardBlur}
+                      backgroundOpacity={actualFeatureCardOpacity}
+                      borderRadiusValue={actualCardBorderRadius}
+                      boxShadowStyle={dynamicBoxShadow}
+                    />
+                  ))}
+                </div>
+              </section>
 
-          <footer className="mt-16 md:mt-24 pt-8 md:pt-12 border-t border-white/10 text-center">
-            <p className="text-sm text-slate-300 bg-black/30 backdrop-blur-sm p-1 rounded-md inline-block drop-shadow-sm">
-              &copy; {new Date().getFullYear()} Liquid Glass React. Todos os direitos reservados.
-            </p>
-            <p className="text-xs text-slate-400/80 mt-2 bg-black/30 backdrop-blur-sm p-1 rounded-md inline-block drop-shadow-sm">
-              Construído com Next.js, Tailwind CSS, e ShadCN UI.
-            </p>
-          </footer>
+              <section id="project-details" aria-labelledby="project-details-heading" className="scroll-mt-20">
+                <h2 id="project-details-heading" className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-slate-100 drop-shadow-md">
+                  Detalhes do Projeto
+                </h2>
+                <ProjectDetailsCard
+                  {...projectDetails}
+                  backgroundOpacity={actualFeatureCardOpacity}
+                  currentBlur={actualCardBlur}
+                  borderRadiusValue={actualCardBorderRadius}
+                  boxShadowStyle={dynamicBoxShadow}
+                />
+              </section>
+            </main>
+
+            <footer className="mt-16 md:mt-24 pt-8 md:pt-12 border-t border-white/10 text-center">
+              <p className="text-sm text-slate-300 bg-black/30 backdrop-blur-sm p-1 rounded-md inline-block drop-shadow-sm">
+                &copy; {new Date().getFullYear()} Liquid Glass React. Todos os direitos reservados.
+              </p>
+              <p className="text-xs text-slate-400/80 mt-2 bg-black/30 backdrop-blur-sm p-1 rounded-md inline-block drop-shadow-sm">
+                Construído com Next.js, Tailwind CSS, e ShadCN UI.
+              </p>
+            </footer>
+          </div>
         </div>
       </div>
     </>
