@@ -7,6 +7,7 @@ import { ProjectDetailsCard } from '@/components/project-details-card';
 import { FeatureCard } from '@/components/feature-card';
 import { Github, Instagram, Settings2, Layers, Shapes, Baseline, Droplet, Contrast } from 'lucide-react';
 import { SplineViewer } from '@/components/spline-viewer';
+import { GlassDemo } from '@/components/glass-demo';
 
 export default function HomePage() {
   const [featureCardOpacitySlider, setFeatureCardOpacitySlider] = useState(24);
@@ -21,7 +22,7 @@ export default function HomePage() {
   const actualCardBlur = cardBlurSlider / 100 * 24;
   const actualCardBorderRadius = (cardBorderRadiusSlider / 100) * 2;
 
-  const actualInnerBottomShadowBlur = (innerBottomShadowBlurSlider / 100) * 25; 
+  const actualInnerBottomShadowBlur = (innerBottomShadowBlurSlider / 100) * 25;
 
   const actualShadowBlur = shadowBlurSlider / 100 * 40;
   const actualShadowAlpha = shadowOpacitySlider / 100 * 0.3;
@@ -66,55 +67,55 @@ export default function HomePage() {
     sliderLabel: string;
     defaultValue: number;
   }> = [
-    {
-      id: "cardBorderRadiusControl",
-      title: "Raio da Borda dos Cards",
-      description: "Ajuste o quão arredondadas são as bordas dos cards.",
-      icon: <Shapes />,
-      sliderLabel: "Raio da Borda",
-      defaultValue: cardBorderRadiusSlider,
-    },
-    {
-      id: "featureCardOpacityControl",
-      title: "Opacidade Fundo Cards Interativos",
-      description: "Controle a opacidade do fundo dos cards interativos.",
-      icon: <Layers />,
-      sliderLabel: "Opacidade",
-      defaultValue: featureCardOpacitySlider,
-    },
-    {
-      id: "cardBlurControl",
-      title: "Desfoque dos Cards Interativos",
-      description: "Ajuste o nível de desfoque dos cards interativos.",
-      icon: <Settings2 />,
-      sliderLabel: "Nível de Desfoque",
-      defaultValue: cardBlurSlider,
-    },
-    {
-      id: "innerBottomShadowBlurControl",
-      title: "Profundidade Interna (Desfoque)",
-      description: "Ajuste o desfoque da sombra interna inferior para profundidade.",
-      icon: <Baseline />,
-      sliderLabel: "Profund. Desfoque",
-      defaultValue: innerBottomShadowBlurSlider,
-    },
-    {
-      id: "shadowBlurControl",
-      title: "Desfoque da Sombra Externa",
-      description: "Ajuste o raio de desfoque da sombra projetada externa.",
-      icon: <Droplet />,
-      sliderLabel: "Desfoque Externo",
-      defaultValue: shadowBlurSlider,
-    },
-    {
-      id: "shadowOpacityControl",
-      title: "Opacidade da Sombra Externa",
-      description: "Ajuste a opacidade da sombra projetada externa.",
-      icon: <Contrast />,
-      sliderLabel: "Opacid. Externa",
-      defaultValue: shadowOpacitySlider,
-    },
-  ];
+      {
+        id: "cardBorderRadiusControl",
+        title: "Raio da Borda dos Cards",
+        description: "Ajuste o quão arredondadas são as bordas dos cards.",
+        icon: <Shapes />,
+        sliderLabel: "Raio da Borda",
+        defaultValue: cardBorderRadiusSlider,
+      },
+      {
+        id: "featureCardOpacityControl",
+        title: "Opacidade Fundo Cards Interativos",
+        description: "Controle a opacidade do fundo dos cards interativos.",
+        icon: <Layers />,
+        sliderLabel: "Opacidade",
+        defaultValue: featureCardOpacitySlider,
+      },
+      {
+        id: "cardBlurControl",
+        title: "Desfoque dos Cards Interativos",
+        description: "Ajuste o nível de desfoque dos cards interativos.",
+        icon: <Settings2 />,
+        sliderLabel: "Nível de Desfoque",
+        defaultValue: cardBlurSlider,
+      },
+      {
+        id: "innerBottomShadowBlurControl",
+        title: "Profundidade Interna (Desfoque)",
+        description: "Ajuste o desfoque da sombra interna inferior para profundidade.",
+        icon: <Baseline />,
+        sliderLabel: "Profund. Desfoque",
+        defaultValue: innerBottomShadowBlurSlider,
+      },
+      {
+        id: "shadowBlurControl",
+        title: "Desfoque da Sombra Externa",
+        description: "Ajuste o raio de desfoque da sombra projetada externa.",
+        icon: <Droplet />,
+        sliderLabel: "Desfoque Externo",
+        defaultValue: shadowBlurSlider,
+      },
+      {
+        id: "shadowOpacityControl",
+        title: "Opacidade da Sombra Externa",
+        description: "Ajuste a opacidade da sombra projetada externa.",
+        icon: <Contrast />,
+        sliderLabel: "Opacid. Externa",
+        defaultValue: shadowOpacitySlider,
+      },
+    ];
 
   const dynamicBoxShadow = `
     inset 1px 1px 2px 0px hsla(0, 0%, 100%, 0.85), 
@@ -158,14 +159,25 @@ export default function HomePage() {
 
             <main className="space-y-12 md:space-y-16">
               <h2 className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-slate-100 drop-shadow-md">
-                Este é nosso objetivo
+                Este é nosso objetivo (Spline)
               </h2>
               <section
                 id="objective-spline"
                 aria-label="Visualização do Objetivo com Spline"
-                className="scroll-mt-20 relative rounded-lg overflow-hidden shadow-xl h-[400px] md:h-[500px] w-full max-w-4xl mx-auto"
+                className="scroll-mt-20 relative rounded-lg overflow-hidden shadow-xl h-[400px] md:h-[500px] w-full max-w-4xl mx-auto mb-16"
               >
                 <SplineViewer splineUrl={splineSceneUrl} className="w-full h-full" />
+              </section>
+
+              <h2 className="text-3xl md:text-4xl font-headline font-semibold mb-8 text-center text-slate-100 drop-shadow-md">
+                Nova Versão com Three.js (Refração Realista)
+              </h2>
+              <section
+                id="objective-threejs"
+                aria-label="Visualização com React Three Fiber"
+                className="scroll-mt-20 relative rounded-lg overflow-hidden shadow-xl h-[400px] md:h-[500px] w-full max-w-4xl mx-auto bg-black/10 backdrop-blur-md border border-white/20 mb-16"
+              >
+                <GlassDemo />
               </section>
 
               <section id="features" aria-labelledby="features-heading" className="scroll-mt-20">
@@ -220,6 +232,5 @@ export default function HomePage() {
     </>
   );
 }
-    
 
-    
+
